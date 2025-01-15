@@ -3,9 +3,6 @@ from ballObj import ball
 
 roll = randint(1, 100)
 
-
-
-
 class player():
     def __init__(self, name, accuracy):
         self.name = name 
