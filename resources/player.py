@@ -1,5 +1,4 @@
 from random import randint
-from ballObj import ball
 
 roll = randint(1, 100)
 
@@ -8,7 +7,7 @@ class player():
         self.name = name 
         self.accuracy = accuracy
     
-    def hit(self, ball:ball):
+    def hit(self, ball):
         if self.accuracy - ball.attributes['difficulty'] > 50:
             currentRoll = roll + self.accuracy // 10 
             if currentRoll > 30:# Hit goes where user wanted
@@ -22,7 +21,7 @@ class player():
                 else:
                     print('half decent hit')
     
-    def receive(self, ball:ball):
+    def receive(self, ball):
         if self.accuracy - ball.attributes['difficulty'] > 50:
             currentRoll = roll + self.accuracy // 10 
             if currentRoll > 30:# Hit goes where user wanted
