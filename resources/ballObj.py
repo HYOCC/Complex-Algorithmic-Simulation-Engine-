@@ -1,16 +1,12 @@
 class ball():
     def __init__(self):
         self.attributes = {'difficulty': 0}
+        self.route = None# Which spot the ball is headed towards
         self.state = 'none'
 
+    # route
+    def setRoute(self, spot:int):
+        self.route = spot
     
-    def increaseDifficulty(self, amount):
-        self.attributes['difficulty'] += amount
-        print(f'current ball difficulty: {self.attributes['difficulty']}')
-    
-    def decreaseDifficulty(self, amount):
-        self.attributes['difficulty'] -= amount
-        print(f'current ball difficulty: {self.attributes['difficulty']}')
-    
-    def getDifficulty(self):
-        return self.attributes['difficulty']
+    def getRoute(self):
+        return self.route
