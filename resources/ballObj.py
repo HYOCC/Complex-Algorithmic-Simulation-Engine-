@@ -11,3 +11,6 @@ class ball():
     def decreaseDifficulty(self, amount):
         self.attributes['difficulty'] -= amount
         print(f'current ball difficulty: {self.attributes['difficulty']}')
+    
+    def getDifficulty(self):
+        return self.attributes['difficulty']

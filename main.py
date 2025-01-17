@@ -1,8 +1,8 @@
 import resources.ballObj as ballClass
 import resources.player as playerClass
 
-player1 = playerClass.player('Oscar', 60)
-player2 = playerClass.player('John', 40)
+player1 = playerClass.player('Oscar', 100)
+player2 = playerClass.player('John', 90)
 ball = ballClass.ball()
 
 players = [player1, player2]
