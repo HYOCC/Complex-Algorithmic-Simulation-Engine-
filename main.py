@@ -1,7 +1,7 @@
 import resources.ballObj as ballClass
 import resources.player as playerClass
 
-hitter1 = playerClass.player('Oscar', 10)
+hitter1 = playerClass.player('Oscar', 0)
 setter1 = playerClass.player('Nick', 80,)
 
 hitter2 = playerClass.player('John', 40,)
@@ -29,17 +29,47 @@ for key, value in team2.items():
         court2[0].append(key)
 
 if __name__ == '__main__':
-    # Serve sequence, only happens once during the match
-    cPlayer = court1[1][0]
-    print(f'{cPlayer} starts with the ball!!')
-    spot = input(f'where would {cPlayer} serve? (1,2) ')
-    while not(spot)  and int(spot) not in [1, 2]:
+    team1Point = 0
+    team2Point = 0
+    
+    cTeam = court1
+    
+    while team1Point != 10 or team2Point != 10: # To do: implement overtime
+        # Serve sequence, only happens once during the match
+        cPlayer = cTeam[1][0]
+        print(f'{cPlayer} starts with the ball!!')
         spot = input(f'where would {cPlayer} serve? (1,2) ')
-    serveGood = cPlayer.serve(ball, spot)
-    if serveGood:
-        print(f'The ball is headed towards {ball.getRoute()} spot!')
-    else:
-        print(f'{cPlayer} misses...1')
+        while not(spot) or int(spot) not in [1, 2]:
+            spot = input(f'where would {cPlayer} serve? (1,2) ')
+        serveGood = cPlayer.serve(ball, int(spot))
+        if serveGood:
+            print(f'The ball is headed towards {ball.getRoute()} spot!')
+            # success serve
+            cTeam = court1 if cTeam == court2 else court1
+            # Starts the actual game after service
+            while True:
+                positionIndex = int(ball.getRoute()) - 1
+                cPlayer = cTeam[positionIndex][0]
+                print(f'Ball is headed towards {cPlayer}')
+                
+                action = input(f'What will {cPlayer} do?')
+        else:# serve wasnt successful thus current point ended
+            print(f'{cPlayer} misses...1')
+            if cTeam == court1:
+                team2Point += 1
+                cTeam = court2
+            else:
+                team1Point += 1
+                cTeam = court1 
+            print(f'current score is team1 : {team1Point} | team 2: {team2Point}') 
             
+    
+    if team2Point == 10:
+        print('Team2 WONN!!!')
+    else:
+        print('Team1 WONN!!')
+        
+    
+    
         
         
