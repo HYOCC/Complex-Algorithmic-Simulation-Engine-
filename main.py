@@ -87,8 +87,34 @@ if __name__ == '__main__':
             
             # spiking the set
             elif ball.getState() == 'setted' and setGood:
-                print('Place holder: Spiking')
-                break
+                # sets current player to the ball direction
+                cPlayer = getCPlayer(ball, cTeam)
+                print(f'ball is setted towards {cPlayer}')
+                
+                # player spike location
+                spot = input(f'{cPlayer} spikes it to.... (1,2) ')
+                while not(spot) or int(spot) not in [1, 2]:
+                    spot = input(f'{cPlayer} spikes it to.... (1,2) ')
+                
+                # algorithm for how well the spike is
+                spikeGood = cPlayer.spike(ball, int(spot))
+                
+                if spikeGood:
+                    cTeam = court1 if cTeam == court2 else court2
+                
+            elif ball.getState() == 'spiked' and spikeGood:
+                # sets current player to the ball direction
+                cPlayer = getCPlayer(ball, cTeam)
+                print(f'ball is spiked towards {cPlayer}!!')
+                
+                # player receive location
+                spot = input(f'{cPlayer} receives it to.... (1,2) ')
+                while not(spot) or int(spot) not in [1, 2]:
+                    spot = input(f'{cPlayer} receives it to.... (1,2) ')
+                
+                # algorithm for recieving
+                receiveGood = cPlayer.receive(ball , int(spot))
+                
             
             # whichever is the the cTeam aka the last team to touch the ball loses the point if none of the above was doing correctly
             else:
