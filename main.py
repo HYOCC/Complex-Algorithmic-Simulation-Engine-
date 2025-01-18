@@ -56,7 +56,6 @@ if __name__ == '__main__':
                 
                 # sets current player to the player that the ball is headed towards
                 positionIndex = int(ball.getRoute()) - 1
-                print(f'current position index is {positionIndex}')# Debug
                 cPlayer = cTeam[positionIndex][0]
                 print(f'Ball is headed towards {cPlayer}')
                 
