@@ -18,3 +18,7 @@ class ball():
     # gets ball state
     def getState(self):
         return self.state 
+    
+    # resets the state back to serve mode for another point game
+    def resetState(self):
+        self.state = 'none'

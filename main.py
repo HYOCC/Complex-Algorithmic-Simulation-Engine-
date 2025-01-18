@@ -1,11 +1,11 @@
 import resources.ballObj as ballClass
 import resources.player as playerClass
 
-hitter1 = playerClass.player('Oscar', 50)
-setter1 = playerClass.player('Nick', 80,)
+hitter1 = playerClass.player('Oscar', 30)
+setter1 = playerClass.player('Nick', 30)
 
-hitter2 = playerClass.player('John', 40,)
-setter2 = playerClass.player('Johnny', 50,)
+hitter2 = playerClass.player('John', 30)
+setter2 = playerClass.player('Johnny', 20)
 
 ball = ballClass.ball()
 
@@ -126,6 +126,7 @@ if __name__ == '__main__':
                     team1Point += 1
                     cTeam = court1 
                 print(f'current score is team1 : {team1Point} | team 2: {team2Point}') 
+                ball.resetState()
             
     
     if team2Point == 10:
