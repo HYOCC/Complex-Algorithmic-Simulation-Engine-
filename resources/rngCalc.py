@@ -60,4 +60,8 @@ def calcRollReceive(ball:ball, accuracy:int, spot:int):
         # the ball just goes out
         print('Oooh a bad recieve and the ball goes out...')
         return False
+
+# setting algorithm
+def calcRollSet(ball:ball, accuracy:int, spot:int):
+    pass
                 
