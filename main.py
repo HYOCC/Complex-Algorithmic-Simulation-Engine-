@@ -28,6 +28,13 @@ for key, value in team2.items():
     elif value == 'S':
         court2[0].append(key)
 
+# gets the closest player of where the ball is heading towards 
+def getCPlayer(ball, cTeam):
+    positionIndex = int(ball.getRoute()) - 1
+    cPlayer = cTeam[positionIndex][0]
+    
+    return cPlayer
+
 if __name__ == '__main__':
     team1Point = 0
     team2Point = 0
@@ -35,57 +42,64 @@ if __name__ == '__main__':
     cTeam = court1# implement coin flip to determine who serves first
     
     while team1Point != 10 and team2Point != 10: # To do: implement overtime
+
+            if ball.getState() == 'none':
+                # Serve sequence, only happens once during the match
+                cPlayer = cTeam[1][0]
+                print(f'{cPlayer} starts with the ball!!')
+                spot = input(f'where would {cPlayer} serve? (1,2) ')
+                while not(spot) or int(spot) not in [1, 2]:
+                    spot = input(f'where would {cPlayer} serve? (1,2) ')
         
-        # Serve sequence, only happens once during the match
-        cPlayer = cTeam[1][0]
-        print(f'{cPlayer} starts with the ball!!')
-        spot = input(f'where would {cPlayer} serve? (1,2) ')
-        while not(spot) or int(spot) not in [1, 2]:
-            spot = input(f'where would {cPlayer} serve? (1,2) ')
+                # algorithm for serve
+                serveGood = cPlayer.serve(ball, int(spot))
         
-        # algorithm for serve
-        serveGood = cPlayer.serve(ball, int(spot))
-        
-        # Serve made it over and in
-        if serveGood:
-            print(f'The ball is headed towards {ball.getRoute()} spot!')
-            cTeam = court1 if cTeam == court2 else court2
-            
-            # Starts the actual game after service
-            while True:
+            # Serve made it over and in
+            elif ball.getState() == 'served' and serveGood:
+                print(f'The ball is served towards the {ball.getRoute()} spot!')
+                cTeam = court1 if cTeam == court2 else court2
                 
                 # sets current player to the player that the ball is headed towards
-                positionIndex = int(ball.getRoute()) - 1
-                cPlayer = cTeam[positionIndex][0]
+                cPlayer = getCPlayer(ball, cTeam)
+                
                 print(f'Ball is headed towards {cPlayer}')
-                
-                # serve receive scenario 
-                if ball.getState() == 'served':
+                spot = input(f'{cPlayer} receives to... (1,2) ')
+                while not(spot) or int(spot) not in [1, 2]:
                     spot = input(f'{cPlayer} receives to... (1,2) ')
-                    while not(spot) or int(spot) not in [1, 2]:
-                        spot = input(f'{cPlayer} receives to... (1,2) ')
                     
-                    # algorithm for serve
-                    receiveGood = cPlayer.receive(ball, int(spot))
+                # algorithm for receive
+                receiveGood = cPlayer.receive(ball, int(spot))
+                serveGood = False
+
+            # Receive to the setter
+            elif ball.getState() == 'received' and receiveGood:
+            
+                # sets current player to the player that the ball is headed towards
+                cPlayer = getCPlayer(ball, cTeam)
                 
-                # set scenario
-                elif ball.getState() == 'received':
+                print(f'Ball is headed towards {cPlayer}')
+                spot = input(f'{cPlayer} sets it to.... (1,2) ')
+                while not(spot) or int(spot) not in [1, 2]:
                     spot = input(f'{cPlayer} sets it to.... (1,2) ')
-                    while not(spot) or int(spot) not in [1, 2]:
-                        spot = input(f'{cPlayer} sets it to.... (1,2) ')
-                    
-                    # algorithm for setting 
-                    
-        # serve wasnt successful thus current point ended
-        else:
-            print(f'{cPlayer} misses...1')
-            if cTeam == court1:
-                team2Point += 1
-                cTeam = court2
+                # algorithm for setting 
+                setGood = cPlayer.set(ball, int(spot)) 
+                receiveGood = False 
+            
+            # spiking the set
+            elif ball.getState() == 'setted' and setGood:
+                print('Place holder: Spiking')
+                break
+            
+            # whichever is the the cTeam aka the last team to touch the ball loses the point if none of the above was doing correctly
             else:
-                team1Point += 1
-                cTeam = court1 
-            print(f'current score is team1 : {team1Point} | team 2: {team2Point}') 
+                print(f'{cPlayer} misses...1')
+                if cTeam == court1:
+                    team2Point += 1
+                    cTeam = court2
+                else:
+                    team1Point += 1
+                    cTeam = court1 
+                print(f'current score is team1 : {team1Point} | team 2: {team2Point}') 
             
     
     if team2Point == 10:

@@ -1,4 +1,4 @@
-from resources.rngCalc import calcRollServe, calcRollReceive
+from resources.rngCalc import calcRollServe, calcRollReceive, calcRollSet
 
 class player():
     def __init__(self, name, accuracy):
@@ -10,6 +10,9 @@ class player():
     
     def receive(self, ball, spot:int):
         return calcRollReceive(ball, self.accuracy, spot)
+    
+    def set(self, ball, spot:int):
+        return calcRollSet(ball, self.accuracy, spot)
     
     def __str__(self):
         return self.name
