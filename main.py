@@ -1,11 +1,11 @@
 import resources.ballObj as ballClass
 import resources.player as playerClass
 
-hitter1 = playerClass.player('Oscar', 50, 50)
-setter1 = playerClass.player('Nick', 50, 50)
+hitter1 = playerClass.player('Oscar', 40,60, 30)
+setter1 = playerClass.player('Nick', 40, 40, 40)
 
-hitter2 = playerClass.player('John', 50, 50)
-setter2 = playerClass.player('Johnny', 50, 50)
+hitter2 = playerClass.player('John', 50, 45, 30)
+setter2 = playerClass.player('Johnny', 50, 30, 50)
 
 ball = ballClass.ball()
 # court to be played on, currently only two spots on each court is available, front and back making it a 2v2 situation
@@ -102,6 +102,7 @@ if __name__ == '__main__':
                 
                 # algorithm for how well the spike is
                 spikeGood = cPlayer.spike(ball, int(spot))
+                setGood = False
                 
                 if spikeGood:
                     cTeam = court1 if cTeam == court2 else court2
@@ -118,6 +119,7 @@ if __name__ == '__main__':
                 
                 # algorithm for recieving
                 receiveGood = cPlayer.receive(ball , int(spot))
+                spikeGood = False
                 
             
             # whichever is the the cTeam aka the last team to touch the ball loses the point if none of the above was doing correctly
@@ -130,7 +132,10 @@ if __name__ == '__main__':
                     team1Point += 1
                     cTeam = court1 
                 print(f'current score is team1 : {team1Point} | team 2: {team2Point}') 
+                
+                # resets the state of the ball
                 ball.resetState()
+                ball.resetVelocity()
             
     
     if team2Point == 10:
