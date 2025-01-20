@@ -8,8 +8,12 @@ def roll():
     return randint(1,100)
 
 # Serve algorithm
-def calcRollServe(ball:ball, accuracy:int, spot:int):
+def calcRollServe(ball:ball, accuracy:int, strength:int, spot:int):
     ball.stateUpdate('served')
+    
+    # Strength = velocity added to the ball
+    ball.increaseVelocity(strength)
+    
     
     # Accuracy check
     if accuracy >= 50:# accuracy state of 50 or over is guaranteed to go where it goes
@@ -33,6 +37,8 @@ def calcRollServe(ball:ball, accuracy:int, spot:int):
         # the ball just goes out
         print('Oooh a bad touch...')
         return False
+    
+    
         
 # receive algorithm
 def calcRollReceive(ball:ball, accuracy:int, spot:int):
@@ -88,8 +94,12 @@ def calcRollSet(ball:ball, accuracy:int, spot:int):
         print('Oooh a bad set and the ball goes out...')
         return False
 
-def calcRollSpike(ball:ball, accuracy:int, spot:int):
+# spiking algorithm
+def calcRollSpike(ball:ball, accuracy:int, strength:int, spot:int):
     ball.stateUpdate('spiked')
+    
+    # Strength to ball
+    ball.increaseVelocity(strength)
     
     # accuracy check
     if accuracy >= 50:# accuracy state of 50 or over is guaranteed to go where it goes

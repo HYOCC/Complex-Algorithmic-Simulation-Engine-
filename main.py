@@ -1,20 +1,22 @@
 import resources.ballObj as ballClass
 import resources.player as playerClass
 
-hitter1 = playerClass.player('Oscar', 30)
-setter1 = playerClass.player('Nick', 30)
+hitter1 = playerClass.player('Oscar', 50, 50)
+setter1 = playerClass.player('Nick', 50, 50)
 
-hitter2 = playerClass.player('John', 30)
-setter2 = playerClass.player('Johnny', 20)
+hitter2 = playerClass.player('John', 50, 50)
+setter2 = playerClass.player('Johnny', 50, 50)
 
 ball = ballClass.ball()
-
+# court to be played on, currently only two spots on each court is available, front and back making it a 2v2 situation
 court1 = [[],
           []]
 court2 = [[],
           []]
 
 team1 ={hitter1: 'OH', setter1: 'S'}
+
+# puts the player of the team onto the court
 for key, value in team1.items():
     if value == 'OH':
         court1[1].append(key) 
@@ -22,6 +24,8 @@ for key, value in team1.items():
         court1[0].append(key)
 
 team2 = {hitter2: 'OH', setter2: 'S'}
+
+# puts the player of the team onto the court
 for key, value in team2.items():
     if value == 'OH':
         court2[1].append(key)
@@ -56,7 +60,7 @@ if __name__ == '__main__':
         
             # Serve made it over and in
             elif ball.getState() == 'served' and serveGood:
-                print(f'The ball is served towards the {ball.getRoute()} spot!')
+                print(f'The ball is served towards the {ball.getRoute()} at a speed of {ball.getVelocity()} km/s spot!!')
                 cTeam = court1 if cTeam == court2 else court2
                 
                 # sets current player to the player that the ball is headed towards
@@ -105,7 +109,7 @@ if __name__ == '__main__':
             elif ball.getState() == 'spiked' and spikeGood:
                 # sets current player to the ball direction
                 cPlayer = getCPlayer(ball, cTeam)
-                print(f'ball is spiked towards {cPlayer}!!')
+                print(f'ball is spiked towards {cPlayer} at a {ball.getVelocity()} km/s!!!')
                 
                 # player receive location
                 spot = input(f'{cPlayer} receives it to.... (1,2) ')
