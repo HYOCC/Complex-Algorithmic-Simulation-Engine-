@@ -1,2 +1,1 @@
-# Complex Algorithmic Simulation Engine 
-  Aim to create a complex and realistic volleyball simulator following real rules of volleyball and many deep mechanics such as ball spin, ball speed, tips, float balls, and net scrapes while factoring in player stats that are related to the real world.. ex. simple stats: strength, speed, stamina. complex mental stats, over time match reinforcement ai learning soon to be planned out along too.
+
