@@ -12,6 +12,3 @@ COPY . .
 
 # Specify the command to run your application
 CMD ["python", "main.py"]
-
-
-S
