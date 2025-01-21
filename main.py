@@ -60,13 +60,12 @@ if __name__ == '__main__':
         
             # Serve made it over and in
             elif ball.getState() == 'served' and serveGood:
-                print(f'The ball is served towards the {ball.getRoute()} at a speed of {ball.getVelocity()} km/s spot!!')
                 cTeam = court1 if cTeam == court2 else court2
                 
                 # sets current player to the player that the ball is headed towards
                 cPlayer = getCPlayer(ball, cTeam)
+                print(f'The ball is served towards {cPlayer} at a speed of {ball.getVelocity()} km/s spot!!')
                 
-                print(f'Ball is headed towards {cPlayer}')
                 spot = input(f'{cPlayer} receives to... (1,2) ')
                 while not(spot) or int(spot) not in [1, 2]:
                     spot = input(f'{cPlayer} receives to... (1,2) ')

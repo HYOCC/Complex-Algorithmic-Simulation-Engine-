@@ -14,7 +14,6 @@ def calcRollServe(ball:ball, accuracy:int, strength:int, spot:int):
     # Strength = velocity added to the ball
     ball.increaseVelocity(strength)
     
-    
     # Accuracy check
     if accuracy >= 50:# accuracy state of 50 or over is guaranteed to go where it goes
         print('Accurate serve!')
@@ -40,6 +39,7 @@ def calcRollServe(ball:ball, accuracy:int, strength:int, spot:int):
      
 # receive algorithm
 def calcRollReceive(ball:ball, accuracy:int, ballControl:int , spot:int):
+    ball.stateUpdate('received')
     
     # calculating the contro of the ball for receive
     def calcControl():
@@ -48,7 +48,6 @@ def calcRollReceive(ball:ball, accuracy:int, ballControl:int , spot:int):
             print('Took complete control over the ball!')
             ball.resetVelocity()
             ball.setRoute(spot)
-            ball.stateUpdate('received')
             return True
         else:
             controlRoll = roll()
@@ -56,19 +55,16 @@ def calcRollReceive(ball:ball, accuracy:int, ballControl:int , spot:int):
                 print('Took complete control over the ball!')
                 ball.resetVelocity()
                 ball.setRoute(spot)
-                ball.stateUpdate('received')
                 return True
             elif controlRoll > ball.getVelocity() - (ballControl + ballControl // 10):# ex control = 40 ballV = 50.... 50 - (40 + 40/10)... has to roll more than 2
                 print('Not the best control but its a up!!')
                 ball.decreaseVelocity(ballControl)
                 ball.setRoute(spot)
-                ball.stateUpdate('received')
                 return True
             else:# couldnt control the spike otherwise 
                 print('oof, the spike overtook him')
                 return False
 
-    
     # Accuracy check
     if accuracy >= 50:# accuracy state of 50 or over is guaranteed to go where it goes
         return calcControl()
