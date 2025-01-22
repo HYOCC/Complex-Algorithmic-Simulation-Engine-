@@ -66,7 +66,7 @@ if __name__ == '__main__':
                 cPlayer = getCPlayer(ball, cTeam)
                 print(f'The ball is served towards {cPlayer} at a speed of {ball.getVelocity()} km/s spot!!')
                 
-                spot = input(f'{cPlayer} receives to... (1,2) ')
+                spot = input(f'\n{cPlayer} receives to... (1,2) ')
                 while not(spot) or int(spot) not in [1, 2]:
                     spot = input(f'{cPlayer} receives to... (1,2) ')
                     
@@ -81,7 +81,7 @@ if __name__ == '__main__':
                 cPlayer = getCPlayer(ball, cTeam)
                 
                 print(f'Ball is headed towards {cPlayer}')
-                spot = input(f'{cPlayer} sets it to.... (1,2) ')
+                spot = input(f'\n{cPlayer} sets it to.... (1,2) ')
                 while not(spot) or int(spot) not in [1, 2]:
                     spot = input(f'{cPlayer} sets it to.... (1,2) ')
                 # algorithm for setting 
@@ -95,7 +95,7 @@ if __name__ == '__main__':
                 print(f'ball is setted towards {cPlayer}')
                 
                 # player spike location
-                spot = input(f'{cPlayer} spikes it to.... (1,2) ')
+                spot = input(f'\n{cPlayer} spikes it to.... (1,2) ')
                 while not(spot) or int(spot) not in [1, 2]:
                     spot = input(f'{cPlayer} spikes it to.... (1,2) ')
                 
@@ -112,7 +112,7 @@ if __name__ == '__main__':
                 print(f'ball is spiked towards {cPlayer} at a {ball.getVelocity()} km/s!!!')
                 
                 # player receive location
-                spot = input(f'{cPlayer} receives it to.... (1,2) ')
+                spot = input(f'\n{cPlayer} receives it to.... (1,2) ')
                 while not(spot) or int(spot) not in [1, 2]:
                     spot = input(f'{cPlayer} receives it to.... (1,2) ')
                 
