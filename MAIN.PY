@@ -2,19 +2,21 @@ import resources.ballObj as ballClass
 import resources.player as playerClass
 
 hitter1 = playerClass.player('Oscar', 40,60, 30)
-setter1 = playerClass.player('Nick', 40, 40, 40)
+setter1 = playerClass.player('NickR', 40, 40, 40)
+libero1 = playerClass.player('KyleS', 50, 20, 60)
 
-hitter2 = playerClass.player('John', 50, 45, 30)
-setter2 = playerClass.player('Johnny', 50, 30, 50)
+hitter2 = playerClass.player('Johnn', 50, 45, 30)
+setter2 = playerClass.player('Johnn', 50, 30, 50)
+libero2 = playerClass.player('Jason', 45 , 20, 55)
 
 ball = ballClass.ball()
 # court to be played on, currently only two spots on each court is available, front and back making it a 2v2 situation
-court1 = [[],
-          []]
-court2 = [[],
-          []]
+court1 = [[],[],[],
+          [],[],[]]
+court2 = [[],[],[],
+          [],[],[]]
 
-team1 ={hitter1: 'OH', setter1: 'S'}
+team1 = {hitter1: 'OH', setter1: 'S', libero1: 'L'}
 
 # puts the player of the team onto the court
 for key, value in team1.items():
@@ -22,8 +24,10 @@ for key, value in team1.items():
         court1[1].append(key) 
     elif value == 'S':
         court1[0].append(key)
+    elif value == 'L':
+        court1[4].append(key)
 
-team2 = {hitter2: 'OH', setter2: 'S'}
+team2 = {hitter2: 'OH', setter2: 'S', libero2: 'L'}
 
 # puts the player of the team onto the court
 for key, value in team2.items():
@@ -31,6 +35,40 @@ for key, value in team2.items():
         court2[1].append(key)
     elif value == 'S':
         court2[0].append(key)
+    elif value == 'L':
+        court2[4].append(key)
+
+# printing out the court to terminal for better visualization
+def printCourtState():
+    for i in range(len(court1)):
+        if i == 2:# starts a new line after 3 spot
+            if court1[i]:
+                print(court1[i], end=' ')
+            else:
+                print('[     ]', end = ' ')
+            print('')
+        else:
+            if court1[i]:
+                print(court1[i], end = ' ') 
+            else:
+                print('[     ]', end = ' ')
+    print('\n\n')
+    for i in range(len(court2)):
+        if i == 2:# starts a new line after 3 spot
+            if court2[i]:
+                print(court2[i], end = ' ')
+            else:
+                print('[     ]', end = ' ')
+            print('')
+        else:
+            if court2[i]:
+                print(court2[i], end = ' ')
+            else:
+                print('[     ]', end = ' ')
+    print('\n\n')
+
+printCourtState()
+        
 
 # gets the closest player of where the ball is heading towards 
 def getCPlayer(ball, cTeam):
