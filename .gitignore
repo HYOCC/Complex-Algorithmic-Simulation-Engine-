@@ -160,9 +160,5 @@ cython_debug/
 #.idea/
 cookBook/techStack.txt
 /cookBook
-*.sh
-Dockerfile
-Dockerfile
-Dockerfile
-Dockerfile
-Dockerfile
+
+

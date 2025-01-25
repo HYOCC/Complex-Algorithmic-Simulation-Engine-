@@ -1,6 +1,6 @@
 FROM python:3.9-slim
 
-WORKDIR /main
+WORKDIR /MAIN   
 
 COPY requirements.txt . 
 
@@ -11,4 +11,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Specify the command to run your application
-CMD ["python", "main.py"]
+CMD ["python", "MAIN.py"]

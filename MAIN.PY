@@ -1,77 +1,31 @@
 import resources.ballObj as ballClass
 import resources.player as playerClass
+import resources.court as courtClass
 
+# Team 1
 hitter1 = playerClass.player('Oscar', 40,60, 30)
 setter1 = playerClass.player('NickR', 40, 40, 40)
 libero1 = playerClass.player('KyleS', 50, 20, 60)
 
+# team 2 
 hitter2 = playerClass.player('Johnn', 50, 45, 30)
-setter2 = playerClass.player('Johnn', 50, 30, 50)
+setter2 = playerClass.player('Lonnn', 50, 30, 50)
 libero2 = playerClass.player('Jason', 45 , 20, 55)
 
+# ball class
 ball = ballClass.ball()
-# court to be played on, currently only two spots on each court is available, front and back making it a 2v2 situation
-court1 = [[],[],[],
-          [],[],[]]
-court2 = [[],[],[],
-          [],[],[]]
 
 team1 = {hitter1: 'OH', setter1: 'S', libero1: 'L'}
-
-# puts the player of the team onto the court
-for key, value in team1.items():
-    if value == 'OH':
-        court1[1].append(key) 
-    elif value == 'S':
-        court1[0].append(key)
-    elif value == 'L':
-        court1[4].append(key)
-
+court1 = courtClass.court(team1)
+court1.printCourtState()
+print('')
 team2 = {hitter2: 'OH', setter2: 'S', libero2: 'L'}
-
-# puts the player of the team onto the court
-for key, value in team2.items():
-    if value == 'OH':
-        court2[1].append(key)
-    elif value == 'S':
-        court2[0].append(key)
-    elif value == 'L':
-        court2[4].append(key)
-
-# printing out the court to terminal for better visualization
-def printCourtState():
-    for i in range(len(court1)):
-        if i == 2:# starts a new line after 3 spot
-            if court1[i]:
-                print(court1[i], end=' ')
-            else:
-                print('[     ]', end = ' ')
-            print('')
-        else:
-            if court1[i]:
-                print(court1[i], end = ' ') 
-            else:
-                print('[     ]', end = ' ')
-    print('\n\n')
-    for i in range(len(court2)):
-        if i == 2:# starts a new line after 3 spot
-            if court2[i]:
-                print(court2[i], end = ' ')
-            else:
-                print('[     ]', end = ' ')
-            print('')
-        else:
-            if court2[i]:
-                print(court2[i], end = ' ')
-            else:
-                print('[     ]', end = ' ')
-    print('\n\n')
-
-printCourtState()
+court2 = courtClass.court(team2)
+court2.printCourtState()
         
 
 # gets the closest player of where the ball is heading towards 
-def getCPlayer(ball, cTeam):
+def getCPlayer(ball, cTeam):# need to change in case there is no player there by getting action from the fastest/reactionspeed character
     positionIndex = int(ball.getRoute()) - 1
     cPlayer = cTeam[positionIndex][0]
     
@@ -81,24 +35,25 @@ if __name__ == '__main__':
     team1Point = 0
     team2Point = 0
     
-    cTeam = court1# implement coin flip to determine who serves first
+    cTeam = court1.getCourt()# implement coin flip to determine who serves first
+
     
     while team1Point != 10 and team2Point != 10: # To do: implement overtime
 
             if ball.getState() == 'none':
                 # Serve sequence, only happens once during the match
-                cPlayer = cTeam[1][0]
+                cPlayer = cTeam[4][0]
                 print(f'{cPlayer} starts with the ball!!')
-                spot = input(f'where would {cPlayer} serve? (1,2) ')
-                while not(spot) or int(spot) not in [1, 2]:
-                    spot = input(f'where would {cPlayer} serve? (1,2) ')
+                spot = input(f'where would {cPlayer} serve? (1,2,3,4,5,6) ')
+                while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
+                    spot = input(f'where would {cPlayer} serve? (1,2,3,4,5,6) ')
         
                 # algorithm for serve
                 serveGood = cPlayer.serve(ball, int(spot))
         
             # Serve made it over and in
             elif ball.getState() == 'served' and serveGood:
-                cTeam = court1 if cTeam == court2 else court2
+                cTeam = court1.getCourt() if cTeam == court2 else court2.getCourt()
                 
                 # sets current player to the player that the ball is headed towards
                 cPlayer = getCPlayer(ball, cTeam)
@@ -142,7 +97,7 @@ if __name__ == '__main__':
                 setGood = False
                 
                 if spikeGood:
-                    cTeam = court1 if cTeam == court2 else court2
+                    cTeam = court1.getCourt() if cTeam == court2 else court2.getCourt()
                 
             elif ball.getState() == 'spiked' and spikeGood:
                 # sets current player to the ball direction
@@ -164,10 +119,10 @@ if __name__ == '__main__':
                 print(f'{cPlayer} misses...1')
                 if cTeam == court1:
                     team2Point += 1
-                    cTeam = court2
+                    cTeam = court2.getCourt()
                 else:
                     team1Point += 1
-                    cTeam = court1 
+                    cTeam = court1.getCourt()
                 print(f'current score is team1 : {team1Point} | team 2: {team2Point}') 
                 
                 # resets the state of the ball
