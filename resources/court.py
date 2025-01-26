@@ -1,3 +1,5 @@
+import turnStructure
+
 class court():
     def __init__(self, players:dict):# players: {playerObj:position} 
         self.court = [[],[],[],
@@ -11,6 +13,8 @@ class court():
                 self.court[2].append(key)
             elif value == 'L':
                 self.court[4].append(key)
+        
+        
                 
     # printing out the court to terminal for better visualization
     def printCourtState(self):

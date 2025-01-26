@@ -3,14 +3,14 @@ import resources.player as playerClass
 import resources.court as courtClass
 
 # Team 1
-hitter1 = playerClass.player('Oscar', 40,60, 30)
-setter1 = playerClass.player('NickR', 40, 40, 40)
-libero1 = playerClass.player('KyleS', 50, 20, 60)
+hitter1 = playerClass.player('Oscar', 40,60, 30, 30)
+setter1 = playerClass.player('NickR', 40, 40, 40, 40)
+libero1 = playerClass.player('KyleS', 50, 20, 60, 70)
 
 # team 2 
-hitter2 = playerClass.player('Johnn', 50, 45, 30)
-setter2 = playerClass.player('Lonnn', 50, 30, 50)
-libero2 = playerClass.player('Jason', 45 , 20, 55)
+hitter2 = playerClass.player('Johnn', 50, 45, 30, 50)
+setter2 = playerClass.player('Lonnn', 50, 30, 50, 40)
+libero2 = playerClass.player('Jason', 45 , 20, 55, 60)
 
 # ball class
 ball = ballClass.ball()
