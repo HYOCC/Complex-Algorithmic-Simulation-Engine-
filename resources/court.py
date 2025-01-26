@@ -1,4 +1,4 @@
-import turnStructure
+from resources.turnStructure import queue
 
 class court():
     def __init__(self, players:dict):# players: {playerObj:position} 
@@ -14,8 +14,8 @@ class court():
             elif value == 'L':
                 self.court[4].append(key)
         
+        self.queue = queue(players)
         
-                
     # printing out the court to terminal for better visualization
     def printCourtState(self):
         for i in range(len(self.court)):
@@ -34,6 +34,15 @@ class court():
 
     def getCourt(self):
         return self.court
+    
+    def getHighest(self):
+        self.queue.getHighest()
+        
+    def getLowest(self):
+        self.queue.getLowest()
+    
+    def resetQueue(self):
+        self.queue.resetQueue()
     
     def __str__(self):
         return self.court

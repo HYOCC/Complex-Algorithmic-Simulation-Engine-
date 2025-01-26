@@ -10,6 +10,9 @@ class player():
         # gonna change reaction speed on when the ball is going towards player if they have enough reaction speed to do soetmhign ex. spiking a 60mhs ball and reaction speed is higher, and the ball goes towards them, they will ahve enough time to choose the best course of action such as receiving to whic spots or using hands or even moving a little
         self.reactionSpeed = reactionSpeed# Decides who gets to choose their turn first and also if they get to move preemptiuly when the ball is hit
         
+        # what reaction sped is right now, higher means they are able to choose action base on what other players chooses
+        self.vision = None
+        
     def serve(self, ball, spot:int):
         print(f'\nCurrent player: {self.name}\n')
         return calcRollServe(ball, self.accuracy, self.strength, spot)

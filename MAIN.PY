@@ -15,21 +15,27 @@ libero2 = playerClass.player('Jason', 45 , 20, 55, 60)
 # ball class
 ball = ballClass.ball()
 
+# court class and printing for visualization
 team1 = {hitter1: 'OH', setter1: 'S', libero1: 'L'}
 court1 = courtClass.court(team1)
 court1.printCourtState()
+
+# testing
+court1.getHighest()
+
 print('')
 team2 = {hitter2: 'OH', setter2: 'S', libero2: 'L'}
 court2 = courtClass.court(team2)
 court2.printCourtState()
         
-
 # gets the closest player of where the ball is heading towards 
 def getCPlayer(ball, cTeam):# need to change in case there is no player there by getting action from the fastest/reactionspeed character
     positionIndex = int(ball.getRoute()) - 1
-    cPlayer = cTeam[positionIndex][0]
-    
-    return cPlayer
+    if cTeam[positionIndex]:
+        cPlayer = cTeam[positionIndex][0]
+        return cPlayer
+    else:
+        return False
 
 if __name__ == '__main__':
     team1Point = 0
