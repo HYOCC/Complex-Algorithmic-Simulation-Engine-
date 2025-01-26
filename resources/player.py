@@ -1,11 +1,12 @@
 from resources.rngCalc import calcRollServe, calcRollReceive, calcRollSet, calcRollSpike
 
 class player():
-    def __init__(self, name:str, accuracy:int, strength:int, ballControl:int):# strength in development
+    def __init__(self, name:str, accuracy:int, strength:int, ballControl:int, reactionSpeed:int):# strength in development
         self.name = name 
         self.accuracy = accuracy# determining how accurate the player is on deciding where the ball will be headed towards
         self.strength = strength# how much speed the player puts on the ball aka difficulty of receiving the ball
         self.ballControl = ballControl # currently its the how much speed you can control a spike from receive. ** FUTURE NOTE, will also be player's efficeicny of using a float, adding spins etc
+        self.reactionSpeed = reactionSpeed# Decides who gets to choose their turn first and also if they get to move preemptiuly when the ball is hit
         
     def serve(self, ball, spot:int):
         print(f'\nCurrent player: {self.name}\n')
