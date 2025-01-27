@@ -6,6 +6,7 @@ class queue:
         self.team = team
         self.minQueueHardCopy = []
         self.maxQueueHardCopy = []
+        
         for player in team.keys():
             heapq.heappush(self.maxQueueHardCopy, (-player.reactionSpeed, player))
             heapq.heappush(self.minQueueHardCopy, (player.reactionSpeed, player)) 
@@ -16,13 +17,13 @@ class queue:
     def getHighest(self):
         reactionSpeed, player = heapq.heappop(self.maxQueue)
         print(f'Reaction speed: {-reactionSpeed}, player: {player}')
-        return -reactionSpeed, player
+        return player
     
     # gets lowest reaction
     def getLowest(self):
         reactionSpeed, player = heapq.heappop(self.minQueue)
         print(f'Reaction speed: {reactionSpeed}, player: {player}')
-        return reactionSpeed, player
+        return player
     
     # resets the queue
     def resetQueue(self):

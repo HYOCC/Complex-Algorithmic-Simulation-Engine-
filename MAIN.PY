@@ -63,8 +63,10 @@ if __name__ == '__main__':
                 # sets current player to the player that the ball is headed towards
                 cPlayer = getCPlayer(ball, cTeam)
                 if cPlayer == False:
-                    pass
-                
+                    
+                    player = cTeam.getLowest()
+                    print(f'{player} reacte fast enough!')
+                    
                 print(f'The ball is served towards {cPlayer} at a speed of {ball.getVelocity()} km/s spot!!')
                 
                 spot = input(f'\n{cPlayer} receives to... (1,2,3,4,5,6) ')

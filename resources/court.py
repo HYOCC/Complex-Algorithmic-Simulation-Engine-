@@ -36,10 +36,10 @@ class court():
         return self.court
     
     def getHighest(self):
-        self.queue.getHighest()
+        return self.queue.getHighest()
         
     def getLowest(self):
-        self.queue.getLowest()
+        return self.queue.getLowest()
     
     def resetQueue(self):
         self.queue.resetQueue()

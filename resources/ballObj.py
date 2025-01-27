@@ -2,7 +2,6 @@ class ball():
     def __init__(self):
         self.route = None# Which spot the ball is headed towards
         self.state = 'none'
-        
         self.velocity = 0# affected by strength stats
         
 
