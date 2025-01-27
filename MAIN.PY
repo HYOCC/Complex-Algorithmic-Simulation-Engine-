@@ -65,10 +65,12 @@ if __name__ == '__main__':
                 if cPlayer == False:
                     
                     player = cTeam.getLowest()
-                    print(f'{player} reacte fast enough!')
+                    spot = input(f'{player} sees the ball coming, move towards the ball? (Y/N) ')
+                    if spot == 'Y':
+                        cTeam.movePlayer(player, ball.getRoute())
+                        cPlayer = getCPlayer(ball, cTeam)
                     
-                print(f'The ball is served towards {cPlayer} at a speed of {ball.getVelocity()} km/s spot!!')
-                
+                print(f'The ball is served towards {cPlayer} at a speed of {ball.getVelocity()} km/s spot!!')  
                 spot = input(f'\n{cPlayer} receives to... (1,2,3,4,5,6) ')
                 while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
                     spot = input(f'{cPlayer} receives to... (1,2,3,4,5,6) ')
