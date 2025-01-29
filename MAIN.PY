@@ -8,7 +8,7 @@ setter1 = playerClass.player('NickR', 40, 40, 40, 40)
 libero1 = playerClass.player('KyleS', 50, 20, 60, 70)
 
 # team 2 
-hitter2 = playerClass.player('Johnn', 1, 45, 30, 50)
+hitter2 = playerClass.player('Johnn', 50, 45, 30, 50)
 setter2 = playerClass.player('Lonnn', 50, 30, 50, 40)
 libero2 = playerClass.player('Jason', 45 , 20, 55, 60)
 
@@ -61,6 +61,7 @@ if __name__ == '__main__':
     
     while team1Point != 10 and team2Point != 10: # To do: implement overtime
 
+            # serving
             if ball.getState() == 'none':
                 # Serve sequence, only happens once during the match
                 cPlayer = cTeam.getCourt()[4][0]
@@ -75,6 +76,8 @@ if __name__ == '__main__':
         
             # Serve made it over and in
             elif ball.getState() == 'served' and serveGood:
+                
+                # rallying starts
                 cTeam = court1 if cTeam == court2 else court2
                 
                 # sets current player to the player that the ball is headed towards
@@ -82,11 +85,50 @@ if __name__ == '__main__':
                 
                 # if there is no player in the ball route
                 while cPlayer == False:
-                    if cTeam.checkHighest():
+                    if cTeam.checkHighest():# returns True if no more object are in queue
                         # game over since no player got to there
-                        cTeam = point(cPlayer, cTeam)
-                        receiveGood = False
+                        cTeam = point(cPlayer, cTeam, team1Point, team2Point)
                         serveGood = False
+                        break
+                        
+                    # gets the player with the highest reaction 
+                    player = cTeam.getHighest()
+                    spot = input(f'{player} sees the ball coming, move towards the ball? (Y/N) ')
+                    if spot == 'Y':
+                        
+                        # attempts* moves the player to the ball route
+                        cTeam.movePlayer(player, ball.getRoute())
+                        
+                        # sees if there is a player now
+                        cPlayer = getCPlayer(ball, cTeam)
+                else:
+                    print(f'\n\nCurrent player: {cPlayer}\n')
+                    print(f'The ball is served towards {cPlayer} at a speed of {ball.getVelocity()} km/s spot!!')  
+                    
+                    # resets the queue
+                    cTeam.resetQueue()
+                    
+                    spot = input(f'\n{cPlayer} receives to... (1,2,3,4,5,6) ')
+                    while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
+                        spot = input(f'{cPlayer} receives to... (1,2,3,4,5,6) ')
+                        
+                    # algorithm for receive
+                    receiveGood = cPlayer.receive(ball, int(spot))
+                    serveGood = False
+
+            # ball was received and needse to be set
+            elif ball.getState() == 'received' and receiveGood:
+            
+                # sets current player to the player that the ball is headed towards
+                cPlayer = getCPlayer(ball, cTeam) 
+                
+                # if there is no player in the ball route
+                while cPlayer == False:
+                    if cTeam.checkHighest():# returns True if no more object are in queue
+                        # game over since no player got to there
+                        cTeam = point(cPlayer, cTeam, team1Point, team2Point)
+                        receiveGood = False
+                        break
                     
                     # gets the player with the highest reaction 
                     player = cTeam.getHighest()
@@ -98,90 +140,99 @@ if __name__ == '__main__':
                         
                         # sees if there is a player now
                         cPlayer = getCPlayer(ball, cTeam)
-
-                else:
+                else: 
+                    print(f'Ball is headed towards {cPlayer}')
                     print(f'\n\nCurrent player: {cPlayer}\n')
-                    print(f'The ball is served towards {cPlayer} at a speed of {ball.getVelocity()} km/s spot!!')  
-                    spot = input(f'\n{cPlayer} receives to... (1,2,3,4,5,6) ')
+                    
+                    spot = input(f'\n{cPlayer} sets it to.... (1,2,3,4,5,6) ')
                     while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
-                        spot = input(f'{cPlayer} receives to... (1,2,3,4,5,6) ')
-                        
-                    # algorithm for receive
-                    receiveGood = cPlayer.receive(ball, int(spot))
-                    serveGood = False
-
-            # Receive to the setter
-            elif ball.getState() == 'received' and receiveGood:
-            
-                # sets current player to the player that the ball is headed towards
-                cPlayer = getCPlayer(ball, cTeam)            
-                print(f'Ball is headed towards {cPlayer}')
-                print(f'\n\nCurrent player: {cPlayer}\n')
-                
-                spot = input(f'\n{cPlayer} sets it to.... (1,2,3,4,5,6) ')
-                while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
-                    spot = input(f'{cPlayer} sets it to.... (1,2,3,4,5,6) ')
-
-                # algorithm for setting 
-                setGood = cPlayer.set(ball, int(spot)) 
-                receiveGood = False 
-            
+                        spot = input(f'{cPlayer} sets it to.... (1,2,3,4,5,6) ')               
+                    
+                    # algorithm for setting 
+                    setGood = cPlayer.set(ball, int(spot)) 
+                    receiveGood = False 
+    
             # spiking the set
             elif ball.getState() == 'setted' and setGood:
                 # sets current player to the ball direction
                 cPlayer = getCPlayer(ball, cTeam)
-                print(f'ball is setted towards {cPlayer}')
-                print(f'\n\nCurrent player: {cPlayer}\n')
-                
-                # player spike location
-                spot = input(f'\n{cPlayer} spikes it to.... (1,2,3,4,5,6) ')
-                while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
-                    spot = input(f'{cPlayer} spikes it to.... (1,2,3,4,5,6) ')
                 
                 # if there is no player in the ball route
-                if cPlayer == False:
+                while cPlayer == False:
+                    if cTeam.checkHighest():# returns True if no more object are in queue
+                        # game over since no player got to there
+                        cTeam = point(cPlayer, cTeam, team1Point, team2Point)
+                        setGood = False
+                        break
                     
-                    player = cTeam.getLowest()
+                    # gets the player with the highest reaction 
+                    player = cTeam.getHighest()
                     spot = input(f'{player} sees the ball coming, move towards the ball? (Y/N) ')
                     if spot == 'Y':
+                        
+                        # attempts* moves the player to the ball route
                         cTeam.movePlayer(player, ball.getRoute())
+                        
+                        # sees if there is a player now
                         cPlayer = getCPlayer(ball, cTeam)
+                else:
+                    print(f'ball is setted towards {cPlayer}')
+                    print(f'\n\nCurrent player: {cPlayer}\n')
+                    
+                    # player spike location
+                    spot = input(f'\n{cPlayer} spikes it to.... (1,2,3,4,5,6) ')
+                    while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
+                        spot = input(f'{cPlayer} spikes it to.... (1,2,3,4,5,6) ')
                 
-                # algorithm for how well the spike is
-                spikeGood = cPlayer.spike(ball, int(spot))
-                setGood = False
-                
-                if spikeGood:
-                    cTeam = court1 if cTeam == court2 else court2
-                
+                    # algorithm for how well the spike is
+                    spikeGood = cPlayer.spike(ball, int(spot))
+                    setGood = False
+                    
+                    if spikeGood:
+                        cTeam = court1 if cTeam == court2 else court2
+            
+            # ball was spiked and other team needs to dig it
             elif ball.getState() == 'spiked' and spikeGood:
                 # sets current player to the ball direction
                 cPlayer = getCPlayer(ball, cTeam)
-                print(f'ball is spiked towards {cPlayer} at a {ball.getVelocity()} km/s!!!')
-                print(f'\n\nCurrent player: {cPlayer}\n')
-                
-                # player receive location
-                spot = input(f'\n{cPlayer} receives it to.... (1,2,3,4,5,6) ')
-                while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
-                    spot = input(f'{cPlayer} receives it to.... (1,2,3,4,5,6) ')
                 
                 # if there is no player in the ball route
-                if cPlayer == False:
+                while cPlayer == False:
+                    if cTeam.checkHighest():# returns True if no more object are in queue
+                        # game over since no player got to there
+                        cTeam = point(cPlayer, cTeam, team1Point, team2Point)
+                        spikeGood = False
+                        break
                     
-                    player = cTeam.getLowest()
+                    # gets the player with the highest reaction 
+                    player = cTeam.getHighest()
                     spot = input(f'{player} sees the ball coming, move towards the ball? (Y/N) ')
                     if spot == 'Y':
+                        
+                        # attempts* moves the player to the ball route
                         cTeam.movePlayer(player, ball.getRoute())
+                        
+                        # sees if there is a player now
                         cPlayer = getCPlayer(ball, cTeam)
-
-                # algorithm for recieving
-                receiveGood = cPlayer.receive(ball , int(spot))
-                spikeGood = False
+                else:
                 
-            
+                    print(f'ball is spiked towards {cPlayer} at a {ball.getVelocity()} km/s!!!')
+                    print(f'\n\nCurrent player: {cPlayer}\n')
+                    
+                    # player receive location
+                    spot = input(f'\n{cPlayer} receives it to.... (1,2,3,4,5,6) ')
+                    while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
+                        spot = input(f'{cPlayer} receives it to.... (1,2,3,4,5,6) ')
+
+                    # algorithm for recieving
+                    receiveGood = cPlayer.receive(ball , int(spot))
+                    spikeGood = False
+                
             # whichever is the the cTeam aka the last team to touch the ball loses the point if none of the above was doing correctly
             else:
                 cTeam, team1Point, team2Point = point(cPlayer, cTeam, team1Point, team2Point)
+                # resets the queue
+                cTeam.resetQueue()
             
     
     if team2Point == 10:
