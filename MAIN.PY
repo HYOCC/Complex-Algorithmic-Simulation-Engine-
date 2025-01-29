@@ -8,7 +8,7 @@ setter1 = playerClass.player('NickR', 40, 40, 40, 40)
 libero1 = playerClass.player('KyleS', 50, 20, 60, 70)
 
 # team 2 
-hitter2 = playerClass.player('Johnn', 50, 45, 30, 50)
+hitter2 = playerClass.player('Johnn', 1, 45, 30, 50)
 setter2 = playerClass.player('Lonnn', 50, 30, 50, 40)
 libero2 = playerClass.player('Jason', 45 , 20, 55, 60)
 
@@ -37,6 +37,22 @@ def getCPlayer(ball, cTeam:courtClass):# need to change in case there is no play
     else:
         return False
 
+def point(cPlayer, cTeam, team1Point, team2Point):
+    print(f'{cPlayer} misses...1')
+    if cTeam == court1:
+        team2Point += 1
+        cTeam = court2
+    else:
+        team1Point += 1
+        cTeam = court1
+    print(f'current score is team1 : {team1Point} | team 2: {team2Point}') 
+    
+    # resets the state of the ball
+    ball.resetState()
+    ball.resetVelocity()
+    
+    return cTeam, team1Point, team2Point
+
 if __name__ == '__main__':
     team1Point = 0
     team2Point = 0
@@ -62,6 +78,8 @@ if __name__ == '__main__':
                 
                 # sets current player to the player that the ball is headed towards
                 cPlayer = getCPlayer(ball, cTeam)
+                
+                # if there is no player in the ball route
                 if cPlayer == False:
                     
                     player = cTeam.getLowest()
@@ -69,15 +87,21 @@ if __name__ == '__main__':
                     if spot == 'Y':
                         cTeam.movePlayer(player, ball.getRoute())
                         cPlayer = getCPlayer(ball, cTeam)
-                    
-                print(f'The ball is served towards {cPlayer} at a speed of {ball.getVelocity()} km/s spot!!')  
-                spot = input(f'\n{cPlayer} receives to... (1,2,3,4,5,6) ')
-                while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
-                    spot = input(f'{cPlayer} receives to... (1,2,3,4,5,6) ')
-                    
-                # algorithm for receive
-                receiveGood = cPlayer.receive(ball, int(spot))
-                serveGood = False
+                        if cPlayer == False:
+                            # implement game over function
+                            cTeam = point(cPlayer, cTeam)
+                            receiveGood = False
+                            serveGood = False
+
+                else:
+                    print(f'The ball is served towards {cPlayer} at a speed of {ball.getVelocity()} km/s spot!!')  
+                    spot = input(f'\n{cPlayer} receives to... (1,2,3,4,5,6) ')
+                    while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
+                        spot = input(f'{cPlayer} receives to... (1,2,3,4,5,6) ')
+                        
+                    # algorithm for receive
+                    receiveGood = cPlayer.receive(ball, int(spot))
+                    serveGood = False
 
             # Receive to the setter
             elif ball.getState() == 'received' and receiveGood:
@@ -89,6 +113,16 @@ if __name__ == '__main__':
                 spot = input(f'\n{cPlayer} sets it to.... (1,2,3,4,5,6) ')
                 while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
                     spot = input(f'{cPlayer} sets it to.... (1,2,3,4,5,6) ')
+                
+                # if there is no player in the ball route
+                if cPlayer == False:
+                    
+                    player = cTeam.getLowest()
+                    spot = input(f'{player} sees the ball coming, move towards the ball? (Y/N) ')
+                    if spot == 'Y':
+                        cTeam.movePlayer(player, ball.getRoute())
+                        cPlayer = getCPlayer(ball, cTeam)
+                
                 # algorithm for setting 
                 setGood = cPlayer.set(ball, int(spot)) 
                 receiveGood = False 
@@ -103,6 +137,15 @@ if __name__ == '__main__':
                 spot = input(f'\n{cPlayer} spikes it to.... (1,2,3,4,5,6) ')
                 while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
                     spot = input(f'{cPlayer} spikes it to.... (1,2,3,4,5,6) ')
+                
+                # if there is no player in the ball route
+                if cPlayer == False:
+                    
+                    player = cTeam.getLowest()
+                    spot = input(f'{player} sees the ball coming, move towards the ball? (Y/N) ')
+                    if spot == 'Y':
+                        cTeam.movePlayer(player, ball.getRoute())
+                        cPlayer = getCPlayer(ball, cTeam)
                 
                 # algorithm for how well the spike is
                 spikeGood = cPlayer.spike(ball, int(spot))
@@ -121,6 +164,15 @@ if __name__ == '__main__':
                 while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
                     spot = input(f'{cPlayer} receives it to.... (1,2,3,4,5,6) ')
                 
+                # if there is no player in the ball route
+                if cPlayer == False:
+                    
+                    player = cTeam.getLowest()
+                    spot = input(f'{player} sees the ball coming, move towards the ball? (Y/N) ')
+                    if spot == 'Y':
+                        cTeam.movePlayer(player, ball.getRoute())
+                        cPlayer = getCPlayer(ball, cTeam)
+
                 # algorithm for recieving
                 receiveGood = cPlayer.receive(ball , int(spot))
                 spikeGood = False
@@ -128,18 +180,7 @@ if __name__ == '__main__':
             
             # whichever is the the cTeam aka the last team to touch the ball loses the point if none of the above was doing correctly
             else:
-                print(f'{cPlayer} misses...1')
-                if cTeam == court1:
-                    team2Point += 1
-                    cTeam = court2
-                else:
-                    team1Point += 1
-                    cTeam = court1
-                print(f'current score is team1 : {team1Point} | team 2: {team2Point}') 
-                
-                # resets the state of the ball
-                ball.resetState()
-                ball.resetVelocity()
+                cTeam, team1Point, team2Point = point(cPlayer, cTeam, team1Point, team2Point)
             
     
     if team2Point == 10:
