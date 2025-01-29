@@ -64,6 +64,7 @@ if __name__ == '__main__':
             if ball.getState() == 'none':
                 # Serve sequence, only happens once during the match
                 cPlayer = cTeam.getCourt()[4][0]
+                print(f'\n\nCurrent player: {cPlayer}\n')
                 print(f'{cPlayer} starts with the ball!!')
                 spot = input(f'where would {cPlayer} serve? (1,2,3,4,5,6) ')
                 while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
@@ -80,20 +81,26 @@ if __name__ == '__main__':
                 cPlayer = getCPlayer(ball, cTeam)
                 
                 # if there is no player in the ball route
-                if cPlayer == False:
+                while cPlayer == False:
+                    if cTeam.checkHighest():
+                        # game over since no player got to there
+                        cTeam = point(cPlayer, cTeam)
+                        receiveGood = False
+                        serveGood = False
                     
-                    player = cTeam.getLowest()
+                    # gets the player with the highest reaction 
+                    player = cTeam.getHighest()
                     spot = input(f'{player} sees the ball coming, move towards the ball? (Y/N) ')
                     if spot == 'Y':
+                        
+                        # attempts* moves the player to the ball route
                         cTeam.movePlayer(player, ball.getRoute())
+                        
+                        # sees if there is a player now
                         cPlayer = getCPlayer(ball, cTeam)
-                        if cPlayer == False:
-                            # implement game over function
-                            cTeam = point(cPlayer, cTeam)
-                            receiveGood = False
-                            serveGood = False
 
                 else:
+                    print(f'\n\nCurrent player: {cPlayer}\n')
                     print(f'The ball is served towards {cPlayer} at a speed of {ball.getVelocity()} km/s spot!!')  
                     spot = input(f'\n{cPlayer} receives to... (1,2,3,4,5,6) ')
                     while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
@@ -107,22 +114,14 @@ if __name__ == '__main__':
             elif ball.getState() == 'received' and receiveGood:
             
                 # sets current player to the player that the ball is headed towards
-                cPlayer = getCPlayer(ball, cTeam)
-                
+                cPlayer = getCPlayer(ball, cTeam)            
                 print(f'Ball is headed towards {cPlayer}')
+                print(f'\n\nCurrent player: {cPlayer}\n')
+                
                 spot = input(f'\n{cPlayer} sets it to.... (1,2,3,4,5,6) ')
                 while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
                     spot = input(f'{cPlayer} sets it to.... (1,2,3,4,5,6) ')
-                
-                # if there is no player in the ball route
-                if cPlayer == False:
-                    
-                    player = cTeam.getLowest()
-                    spot = input(f'{player} sees the ball coming, move towards the ball? (Y/N) ')
-                    if spot == 'Y':
-                        cTeam.movePlayer(player, ball.getRoute())
-                        cPlayer = getCPlayer(ball, cTeam)
-                
+
                 # algorithm for setting 
                 setGood = cPlayer.set(ball, int(spot)) 
                 receiveGood = False 
@@ -132,6 +131,7 @@ if __name__ == '__main__':
                 # sets current player to the ball direction
                 cPlayer = getCPlayer(ball, cTeam)
                 print(f'ball is setted towards {cPlayer}')
+                print(f'\n\nCurrent player: {cPlayer}\n')
                 
                 # player spike location
                 spot = input(f'\n{cPlayer} spikes it to.... (1,2,3,4,5,6) ')
@@ -158,6 +158,7 @@ if __name__ == '__main__':
                 # sets current player to the ball direction
                 cPlayer = getCPlayer(ball, cTeam)
                 print(f'ball is spiked towards {cPlayer} at a {ball.getVelocity()} km/s!!!')
+                print(f'\n\nCurrent player: {cPlayer}\n')
                 
                 # player receive location
                 spot = input(f'\n{cPlayer} receives it to.... (1,2,3,4,5,6) ')

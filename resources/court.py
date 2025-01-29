@@ -52,8 +52,14 @@ class court():
     def getHighest(self):
         return self.queue.getHighest()
         
+    def checkHighest(self):
+        return self.queue.checkHighestEmpty()
+    
     def getLowest(self):
         return self.queue.getLowest()
+    
+    def checkLowest(self):
+        return self.queue.checkLowestEmpty()
     
     def resetQueue(self):
         self.queue.resetQueue()

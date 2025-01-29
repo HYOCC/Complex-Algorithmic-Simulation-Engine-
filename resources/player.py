@@ -14,19 +14,15 @@ class player():
         self.vision = None
         
     def serve(self, ball, spot:int):
-        print(f'\nCurrent player: {self.name}\n')
         return calcRollServe(ball, self.accuracy, self.strength, spot)
     
     def receive(self, ball, spot:int):
-        print(f'\n\nCurrent player: {self.name}\n')
         return calcRollReceive(ball, self.accuracy, self.ballControl, spot)
     
     def set(self, ball, spot:int):
-        print(f'\n\nCurrent player: {self.name}\n')
         return calcRollSet(ball, self.accuracy, spot)
     
     def spike(self, ball, spot:int):
-        print(f'\n\nCurrent player: {self.name}\n')
         return calcRollSpike(ball, self.accuracy, self.strength, spot)
     
     def __str__(self):

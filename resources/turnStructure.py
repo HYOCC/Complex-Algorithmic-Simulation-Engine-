@@ -29,6 +29,13 @@ class queue:
     def resetQueue(self):
         self.minQueue = copy.copy(self.minQueueHardCopy)
         self.maxQueue = copy.copy(self.maxQueueHardCopy)
+    
+    # if the queues are empty, return True
+    def checkHighestEmpty(self):
+        return len(self.maxQueue) == 0
+
+    def checkLowestEmpty(self):
+        return len(self.minQueue) == 0
         
         
         
