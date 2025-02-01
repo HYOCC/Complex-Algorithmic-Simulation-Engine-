@@ -9,21 +9,25 @@ class court():
         
         # puts the player of the team onto the court
         for key, value in players.items():
-            if value == 'OH':
+            if value == 'OH' and not(self.court[0]):
                 self.court[0].append(key) 
                 self.hmap[key] = 0
+            elif value == 'OH':
+                self.court[5].append(key)
+                self.hmap[key] = 5
             elif value == 'S':
                 self.court[2].append(key)
                 self.hmap[key] = 2
             elif value == 'L':
                 self.court[4].append(key)
                 self.hmap[key] = 4 
-            else:
+            elif value == 'RH':
                 self.court[3].append(key)
                 self.hmap[key] = 3
-            
-            self.printCourtState()
-        
+            else:
+                self.court[1].append(key)
+                self.hmap[key] = 1
+                        
         self.queue = queue(players)
     
     # moving a player on the court

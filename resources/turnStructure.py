@@ -7,8 +7,7 @@ class queue:
         self.minQueueHardCopy = []
         self.maxQueueHardCopy = []
         
-        for player in team.keys():
-            print(player)    
+        for player in team.keys():  
             heapq.heappush(self.maxQueueHardCopy, (-player.reactionSpeed, player))
             heapq.heappush(self.minQueueHardCopy, (player.reactionSpeed, player)) 
             

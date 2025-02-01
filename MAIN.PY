@@ -8,26 +8,27 @@ setter1 = playerClass.player('NickR', 40, 40, 40, 40)
 libero1 = playerClass.player('KyleS', 50, 20, 60, 70)
 right1 = playerClass.player('ooopy', 40, 60, 30, 30)
 outside1 = playerClass.player('joppy', 40,60, 30, 30)
+middle1 = playerClass.player('p2snis', 40,60, 30, 30)
 
 
 # team 2 
 hitter2 = playerClass.player('Johnn', 50, 45, 30, 50)
 setter2 = playerClass.player('Lonnn', 50, 30, 50, 40)
 libero2 = playerClass.player('Jason', 45 , 20, 55, 60)
-outside1 = playerClass.player('Poppy', 40,60, 30, 30)
+outside2 = playerClass.player('Poppy', 40,60, 30, 30)
 right2 = playerClass.player('Mommy', 40,60, 30, 30)
-
+midde2 = playerClass.player('BIGPLYER', 40,60, 30, 30)
 
 # ball class
 ball = ballClass.ball()
 
 # court class and printing for visualization
-team1 = {hitter1: 'OH', setter1: 'S', libero1: 'L', right1:'RH'}
+team1 = {hitter1: 'OH', setter1: 'S', libero1: 'L', right1:'RH', outside1: 'OH', middle1: 'M'}
 court1 = courtClass.court(team1)
 court1.printCourtState()
 
 print('')
-team2 = {hitter2: 'OH', setter2: 'S', libero2: 'L'}
+team2 = {hitter2: 'OH', setter2: 'S', libero2: 'L', right2:'RH', outside2: 'OH', midde2: 'M'}
 court2 = courtClass.court(team2)
 court2.printCourtState()
         
