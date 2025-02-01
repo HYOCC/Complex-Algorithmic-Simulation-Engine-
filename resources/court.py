@@ -23,13 +23,24 @@ class court():
     
     # moving a player on the court
     def movePlayer(self, player:player, spot:int):
+        # testing
+        print(self.hmap)
+        
         self.court[self.hmap[player]].pop()
         self.court[spot-1].append(player)
-        self.hmap[player] = spot
+        self.hmap[player] = spot-1
         self.printCourtState()
         
+        #testing
+        print(self.hmap)
         return True# work in progress to check player stat if it actually is a successful movement
     
+    # swaps the position of two players with each other
+    def swapPlayer(self, player1:player, player2:player):
+        self.court[self.getPlayerPOS(player1)], self.court[self.getPlayerPOS(player2)] = self.court[self.getPlayerPOS(player2)], self.court[self.getPlayerPOS(player1)]
+        self.hmap[player1] = self.getPlayerPOS(player2)
+        self.hmap[player2] = self.getPlayerPOS(player1)
+        
     # printing out the court to terminal for better visualization
     def printCourtState(self):
         for i in range(len(self.court)):
@@ -63,6 +74,10 @@ class court():
     
     def resetQueue(self):
         self.queue.resetQueue()
+    
+    # gets the player position using the hmap
+    def getPlayerPOS(self, player:player):
+        return self.hmap[player] 
     
     def __str__(self):
         return self.court
