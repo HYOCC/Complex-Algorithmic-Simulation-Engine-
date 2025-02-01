@@ -205,7 +205,8 @@ if __name__ == '__main__':
                 # user accessbility
                 print(f'ball is setted towards {cPlayer}')
                 print(f'\n\nCurrent player: {cPlayer}\n')
-                cTeam.printCourtState()# gets a visualization of the court
+                opposite = court1 if cTeam == court2 else court2 
+                opposite.printCourtState()# gets a visualization of the court
                 
                 # player spike location
                 spot = input(f'\n{cPlayer} spikes it to.... (1,2,3,4,5,6) ')
@@ -230,8 +231,6 @@ if __name__ == '__main__':
             # sets current player to the ball direction
             cPlayer = getCPlayer(ball, cTeam)
             
-            lastTouch = cPlayer# updates last touch
-            
             # if there is no player in the ball route
             while cPlayer == False:
                 if cTeam.checkHighest():# returns True if no more object are in queue
@@ -251,9 +250,11 @@ if __name__ == '__main__':
                     # sees if there is a player now
                     cPlayer = getCPlayer(ball, cTeam)
             else:
-            
+                
+                # user visulatizaiton
                 print(f'ball is spiked towards {cPlayer} at a {ball.getVelocity()} km/s!!!')
                 print(f'\n\nCurrent player: {cPlayer}\n')
+                cTeam.printCourtState()
                 
                 # player receive location
                 spot = input(f'\n{cPlayer} receives it to.... (1,2,3,4,5,6) ')
@@ -264,6 +265,8 @@ if __name__ == '__main__':
                 # algorithm for recieving
                 receiveGood = cPlayer.receive(ball , int(spot))
                 spikeGood = False
+                
+                lastTouch = cPlayer# updates last touch
                 
         # whichever is the the cTeam aka the last team to touch the ball loses the point if none of the above was doing correctly
         else:
