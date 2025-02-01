@@ -65,7 +65,7 @@ if __name__ == '__main__':
         if ball.getState() == 'none':
             # Serve sequence, only happens once during the match
             cPlayer = cTeam.getCourt()[4][0]
-            print(f'\n\nCurrent player: {cPlayer}\n')
+            print(f'\n\nCurrent player: {cPlayer}\n\n')
             print(f'{cPlayer} starts with the ball!!')
             spot = input(f'where would {cPlayer} serve? (1,2,3,4,5,6) ')
             while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
@@ -102,8 +102,11 @@ if __name__ == '__main__':
                     # sees if there is a player now
                     cPlayer = getCPlayer(ball, cTeam)
             else:
-                print(f'\n\nCurrent player: {cPlayer}\n')
-                print(f'The ball is served towards {cPlayer} at a speed of {ball.getVelocity()} km/s spot!!')  
+                
+                # user visuall
+                print(f'\n\nCurrent player: {cPlayer}\n\n')
+                print(f'The ball is served towards {cPlayer} at a speed of {ball.getVelocity()} km/s spot!!\n\n')  
+                cTeam.printCourtState()
                 
                 # resets the queue
                 cTeam.resetQueue()
@@ -157,7 +160,7 @@ if __name__ == '__main__':
                     cPlayer = getCPlayer(ball, cTeam)
             else: 
                 print(f'Ball is headed towards {cPlayer}')
-                print(f'\n\nCurrent player: {cPlayer}\n')
+                print(f'\n\nCurrent player: {cPlayer}\n\n')
                 cTeam.printCourtState()# gets a visualization of the court
                 
                 # resets the queue
@@ -204,8 +207,9 @@ if __name__ == '__main__':
                 
                 # user accessbility
                 print(f'ball is setted towards {cPlayer}')
-                print(f'\n\nCurrent player: {cPlayer}\n')
+                print(f'\n\nCurrent player: {cPlayer}\n\n')
                 opposite = court1 if cTeam == court2 else court2 
+                print('')
                 opposite.printCourtState()# gets a visualization of the court
                 
                 # player spike location
@@ -253,11 +257,12 @@ if __name__ == '__main__':
                 
                 # user visulatizaiton
                 print(f'ball is spiked towards {cPlayer} at a {ball.getVelocity()} km/s!!!')
-                print(f'\n\nCurrent player: {cPlayer}\n')
+                print(f'\n\nCurrent player: {cPlayer}\n\n')
                 cTeam.printCourtState()
                 
                 # player receive location
                 spot = input(f'\n{cPlayer} receives it to.... (1,2,3,4,5,6) ')
+                print('')
                 cTeam.printCourtState()# gets a visualization of the court
                 while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
                     spot = input(f'{cPlayer} receives it to.... (1,2,3,4,5,6) ')
