@@ -23,16 +23,11 @@ class court():
     
     # moving a player on the court
     def movePlayer(self, player:player, spot:int):
-        # testing
-        print(self.hmap)
-        
         self.court[self.hmap[player]].pop()
         self.court[spot-1].append(player)
         self.hmap[player] = spot-1
         self.printCourtState()
         
-        #testing
-        print(self.hmap)
         return True# work in progress to check player stat if it actually is a successful movement
     
     # swaps the position of two players with each other
