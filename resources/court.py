@@ -18,6 +18,11 @@ class court():
             elif value == 'L':
                 self.court[4].append(key)
                 self.hmap[key] = 4 
+            else:
+                self.court[3].append(key)
+                self.hmap[key] = 3
+            
+            self.printCourtState()
         
         self.queue = queue(players)
     
@@ -27,7 +32,6 @@ class court():
         self.court[spot-1].append(player)
         self.hmap[player] = spot-1
         self.printCourtState()
-        
         return True# work in progress to check player stat if it actually is a successful movement
     
     # swaps the position of two players with each other

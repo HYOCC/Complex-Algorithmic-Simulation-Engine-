@@ -3,20 +3,26 @@ import resources.player as playerClass
 import resources.court as courtClass
 
 # Team 1
-hitter1 = playerClass.player('Oscar', 40,60, 30, 30)
+hitter1 = playerClass.player('Oscar', 40, 60, 30, 30)
 setter1 = playerClass.player('NickR', 40, 40, 40, 40)
 libero1 = playerClass.player('KyleS', 50, 20, 60, 70)
+right1 = playerClass.player('ooopy', 40, 60, 30, 30)
+outside1 = playerClass.player('joppy', 40,60, 30, 30)
+
 
 # team 2 
 hitter2 = playerClass.player('Johnn', 50, 45, 30, 50)
 setter2 = playerClass.player('Lonnn', 50, 30, 50, 40)
 libero2 = playerClass.player('Jason', 45 , 20, 55, 60)
+outside1 = playerClass.player('Poppy', 40,60, 30, 30)
+right2 = playerClass.player('Mommy', 40,60, 30, 30)
+
 
 # ball class
 ball = ballClass.ball()
 
 # court class and printing for visualization
-team1 = {hitter1: 'OH', setter1: 'S', libero1: 'L'}
+team1 = {hitter1: 'OH', setter1: 'S', libero1: 'L', right1:'RH'}
 court1 = courtClass.court(team1)
 court1.printCourtState()
 
