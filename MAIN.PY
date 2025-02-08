@@ -41,6 +41,23 @@ def getCPlayer(ball, cTeam:courtClass):# need to change in case there is no play
     else:
         return False
 
+################### Development
+
+def testGetCPlayer(ball:ballClass, cTeam:courtClass):
+    positionIndex = ball.testgetRoute() 
+    # unpacking the datas
+    gSpot, sSpot = positionIndex['gSpot']- 1 , positionIndex['sSpot'] -1
+    print(f'gSpot:{gSpot}, sSpot:{sSpot}')
+    
+    
+    if cTeam.testGetCourt()[gSpot][sSpot]:
+        cPlayer = cTeam.testGetCourt()[gSpot][sSpot][0]
+        return cPlayer
+    else:
+        return False
+##################
+
+
 def point(cPlayer, cTeam, team1Point, team2Point):
     print(f'{cPlayer} misses...1')
     if cTeam == court1:
@@ -68,6 +85,79 @@ if __name__ == '__main__':
     
     while team1Point != 10 and team2Point != 10: # To do: implement overtime
         
+        #_____________________________________ Development
+        
+        print(f'_______DEVELOPMENT_________\n')
+        if ball.getState() == 'none':
+            cPlayer = cTeam.testGetCourt()[4][4][0]
+            print(f'\n\nCurrent player: {cPlayer}\n\n')
+            print(f'{cPlayer} starts with the ball!!')
+            gSpot = input(f'where would {cPlayer} serve? (1,2,3,4,5,6) ')
+            while not(gSpot) or int(gSpot) not in [1, 2,3,4,5,6]:
+                gSpot = input(f'where would {cPlayer} serve? (1,2,3,4,5,6) ')
+            
+            sSpot = input(f'specifc position? (1,2,3,4,5,6,7,8,9) ')
+            while not(sSpot) or int(sSpot) not in [1,2,3,4,5,6,7,8,9]:
+                sSpot = input(f'specifc position? (1,2,3,4,5,6,7,8,9) ' )
+            
+            spot = {'gSpot': gSpot, 'sSpot': sSpot}
+            
+            # serving the ball
+            serveGood = cPlayer.testServe(ball, spot)
+            
+        
+        if ball.getState() == 'served' and serveGood:
+            # rallying starts
+            cTeam = court1 if cTeam == court2 else court2
+            
+            # sets current player to the player that the ball is headed towards
+            cPlayer = testGetCPlayer(ball, cTeam)
+            
+            # if there is no player in the ball route
+            while cPlayer == False:
+                if cTeam.checkHighest():# returns True if no more object are in queue
+                    # game over since no player got to there
+                    cTeam = point(cPlayer, cTeam, team1Point, team2Point)
+                    serveGood = False
+                    break
+                    
+                # gets the player with the highest reaction 
+                player = cTeam.getHighest()
+                spot = input(f'{player} sees the ball coming, move towards the ball? (Y/N) ')
+                if spot.upper() == 'Y':
+                    
+                    # attempts* moves the player to the ball route
+                    cTeam.testMovePlayer(player, ball.testgetRoute())
+                    
+                    # sees if there is a player now
+                    cPlayer = testGetCPlayer(ball, cTeam)
+            else:
+                # user visual
+                print(f'\n\nCurrent player: {cPlayer}\n\n')
+                print(f'The ball is served towards {cPlayer} at a speed of {ball.getVelocity()} km/s spot!!\n\n')  
+                cTeam.printCourtStateTest()
+                
+                # resets the queue
+                cTeam.resetQueue()
+                
+                spot = input(f'\n{cPlayer} receives to... (1,2,3,4,5,6) ')
+                while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
+                    spot = input(f'{cPlayer} receives to... (1,2,3,4,5,6) ')
+                    
+                # algorithm for receive
+                receiveGood = cPlayer.testReceive(ball, int(spot))
+                serveGood = False
+                
+                #updates cPlayer
+                lastTouch = cPlayer
+        
+        print(f'\n_________________________')
+        
+        #_____________________________________
+        
+        
+        
+        run = False
         # serving
         if ball.getState() == 'none':
             # Serve sequence, only happens once during the match

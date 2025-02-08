@@ -13,6 +13,17 @@ class ball():
     def getRoute(self):
         return self.route
 
+    ########## Testing for 36x36 court
+    
+    def testSetRoute(self, spot:dict):# # spot: {'gSpot':number, 'sSpot':number}
+        self.gSpot = int(spot['gSpot'])
+        self.sSpot = int(spot['sSpot'])
+        
+    def testgetRoute(self):
+        return {'gSpot':self.gSpot, 'sSpot': self.sSpot}
+    
+    ##########
+    
     # ball state update
     def stateUpdate(self, action:str):
         self.state = action

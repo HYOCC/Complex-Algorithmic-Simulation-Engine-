@@ -1,5 +1,11 @@
 from resources.rngCalc import calcRollServe, calcRollReceive, calcRollSet, calcRollSpike
 
+#______________________________ development
+
+from resources.rngCalc import testCalcRollServ, testCalcRollReceive
+
+#________________________________________
+
 class player():
     def __init__(self, name:str, accuracy:int, strength:int, ballControl:int, reactionSpeed:int):# strength in development
         self.name = name 
@@ -12,7 +18,18 @@ class player():
         
         # what reaction sped is right now, higher means they are able to choose action base on what other players chooses
         self.vision = None
-        
+    
+    #_____________________ Development 
+    
+    def testServe(self, ball, spot:dict):# spot = {'gSpot': int, 'sSPot': int}
+        return testCalcRollServ(ball, self.accuracy, self.strength, spot)
+    
+    def testReceive(self, ball, spot:dict):# spot = {'gSpot': int, 'sSPot': int}
+        return testCalcRollReceive(ball, self.accuracy, self.ballControl, spot)
+    
+    #___________________________________
+    
+    
     def serve(self, ball, spot:int):
         return calcRollServe(ball, self.accuracy, self.strength, spot)
     
