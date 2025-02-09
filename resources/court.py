@@ -115,6 +115,18 @@ class court():
         self.experimental[spot['gSpot'] - 1][spot['sSpot'] - 1].append(player)
         self.printCourtStateTest()
         return True # work in progress to check player stat if it actually is a successful movement
+    
+    def testSwapPlayer(self, player1:player, player2:player):
+        player1Spot = self.testGetPlayerPOS(player1)
+        player2Spot = self.testGetPlayerPOS(player2)
+        
+        self.experimental[player1Spot['gSpot']][player1Spot['sSpot']], self.experimental[player2Spot['gSpot']][player2Spot['sSpot']] = self.experimental[player2Spot['gSpot']][player2Spot['sSpot']], self.experimental[player1Spot['gSpot']][player1Spot['sSpot']]
+        self.testHmap[player1] = player2Spot
+        self.testHmap[player2] = player1Spot
+        
+    def testGetPlayerPOS(self, player:player):
+        return self.testHmap[player]
+    
     #___________________________
     
     # moving a player on the court
