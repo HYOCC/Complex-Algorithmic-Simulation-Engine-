@@ -31,7 +31,9 @@ print('')
 team2 = {hitter2: 'OH', setter2: 'S', libero2: 'L', right2:'RH', outside2: 'OH', midde2: 'M'}
 court2 = courtClass.court(team2)
 court2.printCourtState()
-        
+
+#_____HELPER FUNCTIONS_____
+
 # gets the closest player of where the ball is heading towards 
 def getCPlayer(ball, cTeam:courtClass):# need to change in case there is no player there by getting action from the fastest/reactionspeed character
     positionIndex = int(ball.getRoute()) - 1
@@ -41,7 +43,16 @@ def getCPlayer(ball, cTeam:courtClass):# need to change in case there is no play
     else:
         return False
 
-################### Development
+# determines what actions are currently used right now
+def action(ballState):
+    
+    pass
+
+#___________
+
+
+
+#________________________________________________ Development
 
 def testGetCPlayer(ball:ballClass, cTeam:courtClass):
     positionIndex = ball.testgetRoute() 
@@ -55,7 +66,7 @@ def testGetCPlayer(ball:ballClass, cTeam:courtClass):
         return cPlayer
     else:
         return False
-##################
+#________________________________________
 
 
 def point(cPlayer, cTeam, team1Point, team2Point):
@@ -87,7 +98,6 @@ if __name__ == '__main__':
         
         #_____________________________________ Development
         
-        print(f'_______DEVELOPMENT_________\n')
         if ball.getState() == 'none':
             cPlayer = cTeam.testGetCourt()[4][4][0]
             print(f'\n\nCurrent player: {cPlayer}\n\n')
@@ -105,7 +115,7 @@ if __name__ == '__main__':
             # serving the ball
             serveGood = cPlayer.testServe(ball, spot)
             
-        
+        # receiving
         if ball.getState() == 'served' and serveGood:
             # rallying starts
             cTeam = court1 if cTeam == court2 else court2
@@ -151,14 +161,72 @@ if __name__ == '__main__':
                 #updates cPlayer
                 lastTouch = cPlayer
         
-        print(f'\n_________________________')
+        # setting
+        elif ball.getState() == 'received' and receiveGood:
+            # sets current player to the player that the ball is headed towards
+            cPlayer = testGetCPlayer(ball, cTeam) 
+            
+            # if there is no player in the ball route
+            while cPlayer == False or cPlayer is lastTouch:
+                if cTeam.checkHighest():# returns True if no more object are in queue
+                    # game over since no player got to there
+                    cTeam = point(cPlayer, cTeam, team1Point, team2Point)
+                    receiveGood = False
+                    break
+                
+                # gets the player with the highest reaction 
+                player = cTeam.getHighest() 
+                if player is lastTouch:
+                    player = cTeam.getHighest() 
+                
+                spot = input(f'{player} sees the ball coming, move towards the ball? (Y/N) ')
+                if spot.upper() == 'Y':
+                    
+                    # there was already a player in the spot where the ball is headed
+                    if cPlayer:
+                        
+                        print(cTeam.getPlayerPOS(player))# log
+                        
+                        # swaps the position of the player originally there with the current player that is being moved
+                        cTeam.swapPlayer(cPlayer, player)
+                    else:
+                        # attempts* moves the player to the ball route
+                        cTeam.movePlayer(player, ball.getRoute())
+                    
+                    # sees if there is a player now
+                    cPlayer = getCPlayer(ball, cTeam)
+            else: 
+                print(f'Ball is headed towards {cPlayer}')
+                print(f'\n\nCurrent player: {cPlayer}\n\n')
+                cTeam.printCourtState()# gets a visualization of the court
+                
+                # resets the queue
+                cTeam.resetQueue()
+                
+                spot = input(f'\n{cPlayer} sets it to.... (1,2,3,4,5,6) ')
+                while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
+                    spot = input(f'{cPlayer} sets it to.... (1,2,3,4,5,6) ')               
+                
+                # algorithm for setting 
+                setGood = cPlayer.set(ball, int(spot)) 
+                receiveGood = False 
+                
+                #updates cPlayer
+                lastTouch = cPlayer
+            pass
+        
+        # whichever is the the cTeam aka the last team to touch the ball loses the point if none of the above was doing correctly
+        else:
+            cTeam, team1Point, team2Point = point(cPlayer, cTeam, team1Point, team2Point)
+            # resets the queue
+            cTeam.resetQueue()
         
         #_____________________________________
         
         
         
         run = False
-        # serving
+        '''# serving
         if ball.getState() == 'none':
             # Serve sequence, only happens once during the match
             cPlayer = cTeam.getCourt()[4][0]
@@ -219,6 +287,8 @@ if __name__ == '__main__':
                 #updates cPlayer
                 lastTouch = cPlayer
 
+    
+    
         # ball was received and needse to be set
         elif ball.getState() == 'received' and receiveGood:
         
@@ -368,14 +438,7 @@ if __name__ == '__main__':
                 receiveGood = cPlayer.receive(ball , int(spot))
                 spikeGood = False
                 
-                lastTouch = cPlayer# updates last touch
-                
-        # whichever is the the cTeam aka the last team to touch the ball loses the point if none of the above was doing correctly
-        else:
-            cTeam, team1Point, team2Point = point(cPlayer, cTeam, team1Point, team2Point)
-            # resets the queue
-            cTeam.resetQueue()
-
+                lastTouch = cPlayer# updates last touch'''
     
     if team2Point == 10:
         print('Team2 WONN!!!')
