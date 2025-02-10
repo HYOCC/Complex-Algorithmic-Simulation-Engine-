@@ -2,7 +2,7 @@ from resources.rngCalc import calcRollServe, calcRollReceive, calcRollSet, calcR
 
 #______________________________ development
 
-from resources.rngCalc import testCalcRollServ, testCalcRollReceive
+from resources.rngCalc import testCalcRollServ, testCalcRollReceive, testCalcRollSet
 
 #________________________________________
 
@@ -27,6 +27,8 @@ class player():
     def testReceive(self, ball, spot:dict):# spot = {'gSpot': int, 'sSPot': int}
         return testCalcRollReceive(ball, self.accuracy, self.ballControl, spot)
     
+    def testSet(self, ball, spot:dict):# spot = {'gSpot': int, 'sSPot': int}
+        return testCalcRollSet(ball, self.accuracy, spot)
     #___________________________________
     
     

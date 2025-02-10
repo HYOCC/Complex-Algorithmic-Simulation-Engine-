@@ -83,6 +83,33 @@ def testCalcRollReceive(ball:ball, accuracy:int, ballControl:int , spot:dict):# 
         # the ball just goes out
         print('Oooh a bad recieve and the ball goes out...')
         return False
+
+    
+def testCalcRollSet(ball:ball, accuracy:int, spot:dict):# spot: {'gSpot':int, 'sSpot':int}
+    ball.stateUpdate('setted')
+    
+    # accuracy check
+    if accuracy >= 50:# accuracy state of 50 or over is guaranteed to go where it goes
+        print('Accurate set!')
+        ball.testSetRoute(spot)
+        return True
+    else:
+        accuracyRoll = roll()
+        if accuracyRoll <= accuracy * 2:# if accuracy stat is lower, it has a accuracy stat * 2 chance of making it accurate
+            ball.testSetRoute(spot)
+            print('Accurate set!')
+            return True 
+        elif accuracyRoll <= accuracy * 3:# if roll is between accuracy stat * 2 and accuracy stat * 3, its a off serve that might be off
+            accuracyRoll = roll()
+            print('not the best set...')
+            if accuracyRoll <= 50:# 50/50 if the ball goes in and where he wants it
+                ball.testSetRoute(spot)
+                print('but the ball goes where he wants it!')
+                return True
+            
+        # the ball just goes out
+        print('Oooh a bad set and the ball goes out...')
+        return False
 ##########
 
 

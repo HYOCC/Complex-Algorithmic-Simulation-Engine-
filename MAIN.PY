@@ -150,12 +150,15 @@ if __name__ == '__main__':
                 # resets the queue
                 cTeam.resetQueue()
                 
-                spot = input(f'\n{cPlayer} receives to... (1,2,3,4,5,6) ')
-                while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
-                    spot = input(f'{cPlayer} receives to... (1,2,3,4,5,6) ')
-                    
+                gSpot = input(f'\n{cPlayer} receives to... (1,2,3,4,5,6) ')
+                while not(gSpot) or int(gSpot) not in [1,2,3,4,5,6]:
+                    gSpot = input(f'{cPlayer} receives to... (1,2,3,4,5,6) ')
+                sSpot = input('specifc position? (1,2,3,4,5,6,7,8,9) ')
+                while not(sSpot) or int(sSpot) not in [1,2,3,4,5,6,7,8,9]:
+                    sSpot = input(f'specifc position? (1,2,3,4,5,6,7,8,9) ' )
+                
                 # algorithm for receive
-                receiveGood = cPlayer.testReceive(ball, int(spot))
+                receiveGood = cPlayer.testReceive(ball, {'gSpot': gSpot, 'sSpot': sSpot}) 
                 serveGood = False
                 
                 #updates cPlayer
@@ -185,30 +188,33 @@ if __name__ == '__main__':
                     # there was already a player in the spot where the ball is headed
                     if cPlayer:
                         
-                        print(cTeam.getPlayerPOS(player))# log
+                        print(cTeam.testGetPlayerPOS(player))# log
                         
                         # swaps the position of the player originally there with the current player that is being moved
-                        cTeam.swapPlayer(cPlayer, player)
+                        cTeam.testSwapPlayer(cPlayer, player)
                     else:
                         # attempts* moves the player to the ball route
-                        cTeam.movePlayer(player, ball.getRoute())
+                        cTeam.testMovePlayer(player, ball.testgetRoute())
                     
                     # sees if there is a player now
-                    cPlayer = getCPlayer(ball, cTeam)
+                    cPlayer = testGetCPlayer(ball, cTeam)
             else: 
                 print(f'Ball is headed towards {cPlayer}')
                 print(f'\n\nCurrent player: {cPlayer}\n\n')
-                cTeam.printCourtState()# gets a visualization of the court
+                cTeam.printCourtStateTest()# gets a visualization of the court
                 
                 # resets the queue
                 cTeam.resetQueue()
                 
-                spot = input(f'\n{cPlayer} sets it to.... (1,2,3,4,5,6) ')
-                while not(spot) or int(spot) not in [1, 2,3,4,5,6]:
-                    spot = input(f'{cPlayer} sets it to.... (1,2,3,4,5,6) ')               
+                gSpot = input(f'\n{cPlayer} sets it to... (1,2,3,4,5,6) ')
+                while not(gSpot) or int(gSpot) not in [1,2,3,4,5,6]:
+                    gSpot = input(f'{cPlayer} sets it to... (1,2,3,4,5,6) ')
+                sSpot = input('specifc position? (1,2,3,4,5,6,7,8,9) ')
+                while not(sSpot) or int(sSpot) not in [1,2,3,4,5,6,7,8,9]:
+                    sSpot = input(f'specifc position? (1,2,3,4,5,6,7,8,9) ' )              
                 
                 # algorithm for setting 
-                setGood = cPlayer.set(ball, int(spot)) 
+                setGood = cPlayer.testSet(ball, {'gSpot': gSpot, 'sSpot': sSpot}) 
                 receiveGood = False 
                 
                 #updates cPlayer
