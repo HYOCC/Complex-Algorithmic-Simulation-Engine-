@@ -110,19 +110,26 @@ class court():
         self.experimental[currentGSpot][currentSSpot].pop()
         
         # moves the player to the new spot
-        self.testHmap[player]['gSpot'] = spot['gSpot']
-        self.testHmap[player]['sSpot'] = spot['sSpot']
+        self.testHmap[player]['gSpot'] = spot['gSpot'] - 1
+        self.testHmap[player]['sSpot'] = spot['sSpot'] - 1
         self.experimental[spot['gSpot'] - 1][spot['sSpot'] - 1].append(player)
         self.printCourtStateTest()
         return True # work in progress to check player stat if it actually is a successful movement
     
     def testSwapPlayer(self, player1:player, player2:player):
+        # data holder
         player1Spot = self.testGetPlayerPOS(player1)
         player2Spot = self.testGetPlayerPOS(player2)
+        
+        # Logging 
+        print(f'Swapping {player1} {player1Spot} with {player2} {player2Spot}')
         
         self.experimental[player1Spot['gSpot']][player1Spot['sSpot']], self.experimental[player2Spot['gSpot']][player2Spot['sSpot']] = self.experimental[player2Spot['gSpot']][player2Spot['sSpot']], self.experimental[player1Spot['gSpot']][player1Spot['sSpot']]
         self.testHmap[player1] = player2Spot
         self.testHmap[player2] = player1Spot
+        
+        # Logging
+        print(f'{player1} position: {self.testHmap[player1]}\n{player2} position: {self.testHmap[player2]}')
         
     def testGetPlayerPOS(self, player:player):
         return self.testHmap[player]
