@@ -97,10 +97,10 @@ class court():
     
     def swapPlayer(self, player1:player, player2:player):
         # data holder
-        player1Spot = self.GetPlayerPOS(player1)
-        player2Spot = self.GetPlayerPOS(player2)
+        player1Spot = self.getPlayerPOS(player1)
+        player2Spot = self.getPlayerPOS(player2)
         
-        self.court[player1Spot['gSpot']][player1Spot['sSpot']], self.experimental[player2Spot['gSpot']][player2Spot['sSpot']] = self.experimental[player2Spot['gSpot']][player2Spot['sSpot']], self.experimental[player1Spot['gSpot']][player1Spot['sSpot']]
+        self.court[player1Spot['gSpot']][player1Spot['sSpot']], self.court[player2Spot['gSpot']][player2Spot['sSpot']] = self.court[player2Spot['gSpot']][player2Spot['sSpot']], self.court[player1Spot['gSpot']][player1Spot['sSpot']]
         self.hMap[player1] = player2Spot
         self.hMap[player2] = player1Spot
         
