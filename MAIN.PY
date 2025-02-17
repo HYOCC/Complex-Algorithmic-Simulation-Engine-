@@ -169,7 +169,7 @@ if __name__ == '__main__':
                 lastTouch = cPlayer
         
         # setting
-        elif ball.getState() == 'received' and receiveGood:
+        elif ball.state() == 'received' and receiveGood:
             # sets current player to the player that the ball is headed towards
             cPlayer = getCPlayer(ball, cTeam) 
             
