@@ -2,10 +2,8 @@ import resources.ballObj as ballClass
 import resources.player as playerClass
 import resources.court as courtClass
 
-import copy
-
 # Team 1
-hitter1 = playerClass.player('Oscar', 10, 10, 10, 10)
+hitter1 = playerClass.player('Oscar', 0, 0, 0, 0)
 setter1 = playerClass.player('NickR', 40, 40, 40, 40)
 libero1 = playerClass.player('KyleS', 50, 20, 60, 70)
 right1 = playerClass.player('ooopy', 40, 60, 30, 30)
@@ -26,14 +24,12 @@ ball = ballClass.ball()
 
 # court class and printing for visualization
 team1 = {hitter1: 'OH', setter1: 'S', libero1: 'L', right1:'RH', outside1: 'OH', middle1: 'M'}
-COURT1 = courtClass.court(team1)# constant court so when rally ends, court1 is reset to COURT1
-court1 = copy.deepcopy(COURT1)
+court1 = courtClass.court(team1)# constant court so when rally ends, court1 is reset to COURT1
 court1.printCourtState()
 
 print('')
 team2 = {hitter2: 'OH', setter2: 'S', libero2: 'L', right2:'RH', outside2: 'OH', midde2: 'M'}
-COURT2 = courtClass.court(team2)# constant court so when rally ends, court2 is reset to COURT2
-court2 = copy.deepcopy(COURT2)
+court2 = courtClass.court(team2)# constant court so when rally ends, court2 is reset to COURT2
 court2.printCourtState()
 
 #_____HELPER FUNCTIONS_____
@@ -47,17 +43,6 @@ def getCPlayer(ball, cTeam:courtClass):# need to change in case there is no play
     else:
         return False
 
-# determines what actions are currently used right now
-def action(ballState):
-    
-    pass
-
-#___________
-
-
-
-#_______ Development
-
 def testGetCPlayer(ball:ballClass, cTeam:courtClass):
     positionIndex = ball.testgetRoute() 
     # unpacking the datas
@@ -70,10 +55,10 @@ def testGetCPlayer(ball:ballClass, cTeam:courtClass):
         return cPlayer
     else:
         return False
-#_____
-
 
 def point(cPlayer, cTeam, team1Point, team2Point):
+    global court1, court2 
+    
     print(f'{cPlayer} misses...1')
     if cTeam == court1:
         team2Point += 1
@@ -93,9 +78,9 @@ def point(cPlayer, cTeam, team1Point, team2Point):
     cTeam.resetQueue()
     oTeam.resetQueue()
     
-    # resets team structure
-    court1 = copy.deepcopy(COURT1)
-    court2 = copy.deepcopy(COURT2)
+    # resets the teams court
+    cTeam.resetCourt()
+    oTeam.resetCourt()
     
     return cTeam, oTeam, team1Point, team2Point
 
@@ -137,8 +122,8 @@ if __name__ == '__main__':
         # receiving serve
         if ball.getState() == 'served' and serveGood:
             # rallying starts
-            cTeam = court1 if cTeam == court2 else court2
-            oTeam = court1 if oTeam == court2 else court2
+            cTeam = court1 if cTeam is court2 else court2
+            oTeam = court1 if oTeam is court2 else court2
             
             # sets current player to the player that the ball is headed towards
             cPlayer = testGetCPlayer(ball, cTeam)
@@ -299,8 +284,8 @@ if __name__ == '__main__':
                 
                 if spikeGood:
                     print('ping')
-                    cTeam = court1 if cTeam == court2 else court2
-                    oTeam = court1 if oTeam == court2 else court2
+                    cTeam = court1 if cTeam is court2 else court2
+                    oTeam = court1 if oTeam is court2 else court2
         # receiving a spike
         elif ball.getState() == 'spike' and spikeGood:            
             # sets current player to the ball direction

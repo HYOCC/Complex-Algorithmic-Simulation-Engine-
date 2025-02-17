@@ -18,7 +18,9 @@ class player():
         
         # what reaction sped is right now, higher means they are able to choose action base on what other players chooses
         self.vision = None
-    
+
+        
+        
     #_____________________ Development 
     
     def testServe(self, ball, spot:dict):# spot = {'gSpot': int, 'sSPot': int}

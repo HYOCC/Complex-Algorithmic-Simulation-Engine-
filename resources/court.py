@@ -1,5 +1,6 @@
 import resources.player as player
 from resources.turnStructure import queue
+import copy
 
 class court():
     def __init__(self, players:dict):# players: {playerObj:position} 
@@ -9,7 +10,10 @@ class court():
         #_________________________Development
         
         self.experimental = [[[] for _ in range(9)] for _ in range(6)]
+        self.courtCopy = [[[] for _ in range(9)] for _ in range(6)]
+        
         self.testHmap = {}
+        self.hMapCopy = {}
         # [],[],[]  [],[],[]  [],[],[] 
         # [],[],[]  [],[],[]  [],[],[] 
         # [],[],[]  [],[],[]  [],[],[] 
@@ -20,24 +24,29 @@ class court():
         
         for key, value in players.items():
             if value == 'OH' and not(self.experimental[0][4]): 
-                self.experimental[0][4] = [key] 
+                self.experimental[0][4], self.courtCopy[0][4] = [key], [key]
                 self.testHmap[key] = {'gSpot': 0, 'sSpot': 4}
+                self.hMapCopy[key] = {'gSpot': 0, 'sSpot': 4}
             elif value == 'OH':
-                self.experimental[5][4] = [key]
+                self.experimental[5][4], self.courtCopy[5][4] = [key], [key]
                 self.testHmap[key] = {'gSpot': 5, 'sSpot': 4}
+                self.hMapCopy[key] = {'gSpot': 5, 'sSpot': 4}
             elif value == 'S':
-                self.experimental[2][4] = [key]
+                self.experimental[2][4], self.courtCopy[2][4] = [key], [key]
                 self.testHmap[key] = {'gSpot': 2, 'sSpot': 4}
+                self.hMapCopy[key] = {'gSpot': 2, 'sSpot': 4}
             elif value == 'L':
-                self.experimental[4][4] = [key]
+                self.experimental[4][4], self.courtCopy[4][4] = [key], [key]
                 self.testHmap[key] = {'gSpot': 4, 'sSpot': 4}
+                self.hMapCopy[key] = {'gSpot': 4, 'sSpot': 4}
             elif value == 'RH':
-                self.experimental[3][4] = [key]
+                self.experimental[3][4], self.courtCopy[3][4] = [key], [key]
                 self.testHmap[key] = {'gSpot': 3, 'sSpot': 4}
+                self.hMapCopy[key] = {'gSpot': 3, 'sSpot': 4}
             else:
-                self.experimental[1][4] = [key] 
+                self.experimental[1][4], self.courtCopy[1][4] = [key], [key]
                 self.testHmap[key] = {'gSpot': 1, 'sSpot': 4}
-        self.printCourtStateTest()
+                self.hMapCopy[key] = {'gSpot': 1, 'sSpot': 4}
         
         #___________________________________ 
         
@@ -104,6 +113,7 @@ class court():
         return self.experimental
     
     def testMovePlayer(self, player:player, spot:dict):# spot = {'gSpot':int, 'sSpot':int}
+        
         # removing from current spot
         currentGSpot = self.testHmap[player]['gSpot']
         currentSSpot = self.testHmap[player]['sSpot']
@@ -117,6 +127,9 @@ class court():
         return True # work in progress to check player stat if it actually is a successful movement
     
     def testSwapPlayer(self, player1:player, player2:player):
+        # log
+        print(f'log: {self.testHmap}')
+        
         # data holder
         player1Spot = self.testGetPlayerPOS(player1)
         player2Spot = self.testGetPlayerPOS(player2)
@@ -133,6 +146,11 @@ class court():
         
     def testGetPlayerPOS(self, player:player):
         return self.testHmap[player]
+    
+    # resets the court to original position
+    def resetCourt(self):
+        self.experimental = self.courtCopy
+        self.testHmap = self.hMapCopy
     
     #___________________________
     
