@@ -1,11 +1,5 @@
 from resources.rngCalc import calcRollServe, calcRollReceive, calcRollSet, calcRollSpike
 
-#______________________________ development
-
-from resources.rngCalc import testCalcRollServ, testCalcRollReceive, testCalcRollSet, testCalcRollSpike
-
-#________________________________________
-
 class player():
     def __init__(self, name:str, accuracy:int, strength:int, ballControl:int, reactionSpeed:int):# strength in development
         self.name = name 
@@ -19,36 +13,20 @@ class player():
         # what reaction sped is right now, higher means they are able to choose action base on what other players chooses
         self.vision = None
 
-        
-        
-    #_____________________ Development 
-    
-    def testServe(self, ball, spot:dict):# spot = {'gSpot': int, 'sSPot': int}
-        return testCalcRollServ(ball, self.accuracy, self.strength, spot)
-    
-    def testReceive(self, ball, spot:dict):# spot = {'gSpot': int, 'sSPot': int}
-        return testCalcRollReceive(ball, self.accuracy, self.ballControl, spot)
-    
-    def testSet(self, ball, spot:dict):# spot = {'gSpot': int, 'sSPot': int}
-        return testCalcRollSet(ball, self.accuracy, spot)
-    
-    def testSpike(self, ball, spot:dict):# spot = {'gSpot': int, 'sSpot':int} 
-        return testCalcRollSpike(ball, self.accuracy, spot)
-    #___________________________________
-    
-    
-    def serve(self, ball, spot:int):
+    # actions
+    def serve(self, ball, spot:dict):# spot = {'gSpot': int, 'sSPot': int}
         return calcRollServe(ball, self.accuracy, self.strength, spot)
     
-    def receive(self, ball, spot:int):
+    def receive(self, ball, spot:dict):# spot = {'gSpot': int, 'sSPot': int}
         return calcRollReceive(ball, self.accuracy, self.ballControl, spot)
     
-    def set(self, ball, spot:int):
+    def set(self, ball, spot:dict):# spot = {'gSpot': int, 'sSPot': int}
         return calcRollSet(ball, self.accuracy, spot)
     
-    def spike(self, ball, spot:int):
-        return calcRollSpike(ball, self.accuracy, self.strength, spot)
-    
+    def spike(self, ball, spot:dict):# spot = {'gSpot': int, 'sSpot':int} 
+        return calcRollSpike(ball, self.accuracy, spot)
+
+    # representation
     def __str__(self):
         return self.name
 

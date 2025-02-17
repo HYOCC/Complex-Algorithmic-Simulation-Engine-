@@ -4,15 +4,11 @@ import copy
 
 class court():
     def __init__(self, players:dict):# players: {playerObj:position} 
-        self.court = [[],[],[],
-                      [],[],[]]
         
-        #_________________________Development
-        
-        self.experimental = [[[] for _ in range(9)] for _ in range(6)]
+        self.court = [[[] for _ in range(9)] for _ in range(6)]
         self.courtCopy = [[[] for _ in range(9)] for _ in range(6)]
         
-        self.testHmap = {}
+        self.hMap = {}
         self.hMapCopy = {}
         # [],[],[]  [],[],[]  [],[],[] 
         # [],[],[]  [],[],[]  [],[],[] 
@@ -23,71 +19,44 @@ class court():
         # [],[],[]  [],[],[]  [],[],[] 
         
         for key, value in players.items():
-            if value == 'OH' and not(self.experimental[0][4]): 
-                self.experimental[0][4], self.courtCopy[0][4] = [key], [key]
-                self.testHmap[key] = {'gSpot': 0, 'sSpot': 4}
+            if value == 'OH' and not(self.court[0][4]): 
+                self.court[0][4], self.courtCopy[0][4] = [key], [key]
+                self.hMap[key] = {'gSpot': 0, 'sSpot': 4}
                 self.hMapCopy[key] = {'gSpot': 0, 'sSpot': 4}
             elif value == 'OH':
-                self.experimental[5][4], self.courtCopy[5][4] = [key], [key]
-                self.testHmap[key] = {'gSpot': 5, 'sSpot': 4}
+                self.court[5][4], self.courtCopy[5][4] = [key], [key]
+                self.hMap[key] = {'gSpot': 5, 'sSpot': 4}
                 self.hMapCopy[key] = {'gSpot': 5, 'sSpot': 4}
             elif value == 'S':
-                self.experimental[2][4], self.courtCopy[2][4] = [key], [key]
-                self.testHmap[key] = {'gSpot': 2, 'sSpot': 4}
+                self.court[2][4], self.courtCopy[2][4] = [key], [key]
+                self.hMap[key] = {'gSpot': 2, 'sSpot': 4}
                 self.hMapCopy[key] = {'gSpot': 2, 'sSpot': 4}
             elif value == 'L':
-                self.experimental[4][4], self.courtCopy[4][4] = [key], [key]
-                self.testHmap[key] = {'gSpot': 4, 'sSpot': 4}
+                self.court[4][4], self.courtCopy[4][4] = [key], [key]
+                self.hMap[key] = {'gSpot': 4, 'sSpot': 4}
                 self.hMapCopy[key] = {'gSpot': 4, 'sSpot': 4}
             elif value == 'RH':
-                self.experimental[3][4], self.courtCopy[3][4] = [key], [key]
-                self.testHmap[key] = {'gSpot': 3, 'sSpot': 4}
+                self.court[3][4], self.courtCopy[3][4] = [key], [key]
+                self.hMap[key] = {'gSpot': 3, 'sSpot': 4}
                 self.hMapCopy[key] = {'gSpot': 3, 'sSpot': 4}
             else:
-                self.experimental[1][4], self.courtCopy[1][4] = [key], [key]
-                self.testHmap[key] = {'gSpot': 1, 'sSpot': 4}
+                self.court[1][4], self.courtCopy[1][4] = [key], [key]
+                self.hMap[key] = {'gSpot': 1, 'sSpot': 4}
                 self.hMapCopy[key] = {'gSpot': 1, 'sSpot': 4}
-        
-        #___________________________________ 
-        
-        self.hmap = {}# keeps track of the positions of the player directly {player:position}
-        
-        # puts the player of the team onto the court
-        for key, value in players.items():
-            if value == 'OH' and not(self.court[0]):
-                self.court[0].append(key) 
-                self.hmap[key] = 0
-            elif value == 'OH':
-                self.court[5].append(key)
-                self.hmap[key] = 5
-            elif value == 'S':
-                self.court[2].append(key)
-                self.hmap[key] = 2
-            elif value == 'L':
-                self.court[4].append(key)
-                self.hmap[key] = 4 
-            elif value == 'RH':
-                self.court[3].append(key)
-                self.hmap[key] = 3
-            else:
-                self.court[1].append(key)
-                self.hmap[key] = 1
                         
         self.queue = queue(players)
-    
-    #_____________________ Development 
-    
-    def printCourtStateTest(self):
+
+    def printCourtState(self):
         
         # Function to process a specific range of rows and columns
         def process_range(start_row, end_row, row_start, row_end):
             result = ""
             for i in range(start_row, end_row):
                 for j in range(row_start, row_end):
-                    if not self.experimental[i][j]:
+                    if not self.court[i][j]:
                         result += '[\'  \']'
                     else:
-                        result += f'[{str(self.experimental[i][j][0])[0:4]}]'
+                        result += f'[{str(self.court[i][j][0])[0:4]}]'
                 result += '   '
             result += '\n'
             return result
@@ -109,105 +78,59 @@ class court():
         
         print(res) 
     
-    def testGetCourt(self):
-        return self.experimental
-    
-    def testMovePlayer(self, player:player, spot:dict):# spot = {'gSpot':int, 'sSpot':int}
-        
-        # removing from current spot
-        currentGSpot = self.testHmap[player]['gSpot']
-        currentSSpot = self.testHmap[player]['sSpot']
-        self.experimental[currentGSpot][currentSSpot].pop()
-        
-        # moves the player to the new spot
-        self.testHmap[player]['gSpot'] = spot['gSpot'] - 1
-        self.testHmap[player]['sSpot'] = spot['sSpot'] - 1
-        self.experimental[spot['gSpot'] - 1][spot['sSpot'] - 1].append(player)
-        self.printCourtStateTest()
-        return True # work in progress to check player stat if it actually is a successful movement
-    
-    def testSwapPlayer(self, player1:player, player2:player):
-        # log
-        print(f'log: {self.testHmap}')
-        
-        # data holder
-        player1Spot = self.testGetPlayerPOS(player1)
-        player2Spot = self.testGetPlayerPOS(player2)
-        
-        # Logging 
-        print(f'Swapping {player1} {player1Spot} with {player2} {player2Spot}')
-        
-        self.experimental[player1Spot['gSpot']][player1Spot['sSpot']], self.experimental[player2Spot['gSpot']][player2Spot['sSpot']] = self.experimental[player2Spot['gSpot']][player2Spot['sSpot']], self.experimental[player1Spot['gSpot']][player1Spot['sSpot']]
-        self.testHmap[player1] = player2Spot
-        self.testHmap[player2] = player1Spot
-        
-        # Logging
-        print(f'{player1} position: {self.testHmap[player1]}\n{player2} position: {self.testHmap[player2]}')
-        
-    def testGetPlayerPOS(self, player:player):
-        return self.testHmap[player]
-    
-    # resets the court to original position
-    def resetCourt(self):
-        self.experimental = self.courtCopy
-        self.testHmap = self.hMapCopy
-    
-    #___________________________
-    
-    # moving a player on the court
-    def movePlayer(self, player:player, spot:int):
-        self.court[self.hmap[player]].pop()
-        self.court[spot-1].append(player)
-        self.hmap[player] = spot-1
-        self.printCourtState()
-        return True# work in progress to check player stat if it actually is a successful movement
-    
-    # swaps the position of two players with each other
-    def swapPlayer(self, player1:player, player2:player):
-        self.court[self.getPlayerPOS(player1)], self.court[self.getPlayerPOS(player2)] = self.court[self.getPlayerPOS(player2)], self.court[self.getPlayerPOS(player1)]
-        self.hmap[player1] = self.getPlayerPOS(player2)
-        self.hmap[player2] = self.getPlayerPOS(player1)
-        
-    # printing out the court to terminal for better visualization
-    def printCourtState(self):
-        res = ''
-        
-        for i in range(len(self.court)):
-            if i == 2:# starts a new line after 3 spot
-                if self.court[i]:
-                    res += f'[{self.court[i][0]}]'
-                else:
-                    res += '[     ]' 
-                res += '\n'
-            else:
-                if self.court[i]:
-                    res += f'[{self.court[i][0]}]'
-                else:
-                    res += '[     ]' 
-        res += '\n'
-        print(res)
-
     def getCourt(self):
         return self.court
     
+    def movePlayer(self, player:player, spot:dict):# spot = {'gSpot':int, 'sSpot':int}
+        
+        # removing from current spot
+        currentGSpot = self.hMap[player]['gSpot']
+        currentSSpot = self.hMap[player]['sSpot']
+        self.court[currentGSpot][currentSSpot].pop()
+        
+        # moves the player to the new spot
+        self.hMap[player]['gSpot'] = spot['gSpot'] - 1
+        self.hMap[player]['sSpot'] = spot['sSpot'] - 1
+        self.court[spot['gSpot'] - 1][spot['sSpot'] - 1].append(player)
+        self.printCourtState()
+        return True # work in progress to check player stat if it actually is a successful movement
+    
+    def swapPlayer(self, player1:player, player2:player):
+        # data holder
+        player1Spot = self.GetPlayerPOS(player1)
+        player2Spot = self.GetPlayerPOS(player2)
+        
+        self.court[player1Spot['gSpot']][player1Spot['sSpot']], self.experimental[player2Spot['gSpot']][player2Spot['sSpot']] = self.experimental[player2Spot['gSpot']][player2Spot['sSpot']], self.experimental[player1Spot['gSpot']][player1Spot['sSpot']]
+        self.hMap[player1] = player2Spot
+        self.hMap[player2] = player1Spot
+        
+        
+    def getPlayerPOS(self, player:player):
+        return self.hMap[player]
+    
+    # resets the court to original position
+    def resetCourt(self):
+        self.court = self.courtCopy
+        self.hMap = self.hMapCopy
+    
+    # gets the highest reaction speed of all the characters
     def getHighest(self):
         return self.queue.getHighest()
-        
+    
+    # if the queue is empty for the highest reaction
     def checkHighest(self):
         return self.queue.checkHighestEmpty()
     
+    # gets the lowest reaction speed character
     def getLowest(self):
         return self.queue.getLowest()
     
+    # if the queue is empty for the lowest reaction
     def checkLowest(self):
         return self.queue.checkLowestEmpty()
     
     def resetQueue(self):
         self.queue.resetQueue()
-    
-    # gets the player position using the hmap
-    def getPlayerPOS(self, player:player):
-        return self.hmap[player] 
     
     def __str__(self):
         return self.court

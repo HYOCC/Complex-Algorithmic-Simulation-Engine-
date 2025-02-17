@@ -3,26 +3,13 @@ class ball():
         self.route = None# Which spot the ball is headed towards
         self.state = 'none'
         self.velocity = 0# affected by strength stats
-        
-
-    # sets where the ball is going
-    def setRoute(self, spot:int):
-        self.route = spot
     
-    # gets where the ball is headed towards
-    def getRoute(self):
-        return self.route
-
-    ########## Testing for 36x36 court
-    
-    def testSetRoute(self, spot:dict):# # spot: {'gSpot':number, 'sSpot':number}
+    def setRoute(self, spot:dict):# # spot: {'gSpot':number, 'sSpot':number}
         self.gSpot = int(spot['gSpot'])
         self.sSpot = int(spot['sSpot'])
         
-    def testgetRoute(self):
+    def getRoute(self):
         return {'gSpot':self.gSpot, 'sSpot': self.sSpot}
-    
-    ##########
     
     # ball state update
     def stateUpdate(self, action:str):
